@@ -21,12 +21,7 @@
   },
   "scripts": {
     "start": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
-    "build": "cd src/frontend && react-scripts build",
-    "test": "cd src/frontend && react-scripts test",
-    "eject": "cd src/frontend && react-scripts eject",
     "server": "node src/backend/bin/www",
-    "client": "cd src/frontend && react-scripts start",
-    "server-with-client": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
   },
   "eslintConfig": {
     "extends": [

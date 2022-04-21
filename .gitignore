@@ -10,7 +10,7 @@ build*
 /coverage
 
 # production
-/src/frontend/build
+
 
 # misc
 .DS_Store
