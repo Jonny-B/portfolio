@@ -21,7 +21,7 @@
   },
   "scripts": {
     "start": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
-    "server": "node src/backend/bin/www",
+    "server": "node src/backend/bin/www"
   },
   "eslintConfig": {
     "extends": [
