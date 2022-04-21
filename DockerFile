@@ -1,0 +1,37 @@
+# syntax=docker/dockerfile:1.0.0-experimental
+#
+# To build this manually requires:
+#
+#     DOCKER_BUILDKIT=1 docker build --ssh default -t portal .
+#
+# FROM node:14.17-alpine as build-prod
+# ARG NODE_ENV=production
+# ENV NODE_ENV=${NODE_ENV}
+
+# RUN apk upgrade --no-cache
+# RUN apk add --no-cache \
+#     bash \
+#     build-base \
+#     coreutils \
+#     git \
+#     inotify-tools \
+#     openssh-client \
+#     tini 
+
+# RUN mkdir -p -m 0600 ~/.ssh && ssh-keyscan git.innova-partners.com >> ~/.ssh/known_hosts
+
+# WORKDIR /app
+
+# COPY package.json yarn.lock ./
+
+# RUN --mount=type=ssh yarn install --frozen-lockfile --non-interactive
+
+# COPY . ./
+# RUN adduser -D -h /app -u 400 deployer
+# RUN chown -R deployer:deployer /app
+# RUN yarn build
+
+# USER deployer
+
+# ENTRYPOINT ["/sbin/tini", "--"]
+# CMD ["yarn", "server:prod"]
