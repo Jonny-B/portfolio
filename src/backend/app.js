@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
 const indexRouter = require('./routes/index');
-const galaxySimRouter = require('./routes/galaxySim');
+const galaxySimRouter = require('./routes/galaxy-sim');
 
 const app = express();
 
@@ -24,10 +24,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 // app.use(express.static(path.join(__dirname,'./builds')))
 
 // TODO This could be done recursivly so it doesn't have to be defined for each app.
-app.use(express.static(path.join(__dirname,'./builds/galaxySim')))
+app.use(express.static(path.join(__dirname,'./builds/galaxy-sim')))
 
 app.use('/', indexRouter);
-app.use('/galaxySim', galaxySimRouter);
+app.use('/galaxy-sim', galaxySimRouter);
 
 
 // catch 404 and forward to error handler

@@ -5,17 +5,24 @@
   "license": "MIT",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.3",
+    "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
-    "async": "^3.2.3",
     "clean-webpack-plugin": "^4.0.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
-    "morgan": "~1.9.1"
+    "morgan": "~1.9.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "5.0.0",
+    "web-vitals": "^1.1.2",
+    "webpack": "^5.70.0"
   },
-  "scripts": {},
+  "scripts": {
+    "start": "node ./bin/www"
+  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -29,6 +36,8 @@
     ]
   },
   "devDependencies": {
-    "concurrently": "^5.3.0"
+    "concurrently": "^5.3.0",
+    "html-webpack-plugin": "^5.5.0",
+    "webpack-cli": "^4.9.2"
   }
 }
