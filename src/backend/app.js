@@ -1,34 +1,34 @@
 const createError = require('http-errors');
 const express = require('express');
-const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-
-const indexRouter = require('./routes/index');
-const galaxySimRouter = require('./routes/galaxy-sim');
+var path = require('path');
 
 const app = express();
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-// app.use(express.static(path.join(__dirname,'./builds')))
 
 // TODO This could be done recursivly so it doesn't have to be defined for each app.
-app.use(express.static(path.join(__dirname,'./builds/galaxy-sim')))
+app.use(express.static(path.join(__dirname,'./builds/portfolio')))
 
-app.use('/', indexRouter);
-app.use('/galaxy-sim', galaxySimRouter);
+/* GET home page. */
+app.get('/', function(req, res, next) {
+  console.log('*********************portfolio************************')
+  console.log(path.join(__dirname, 'builds', 'portfolio', 'index.html'))
+  // res.sendFile('portfolio', {root: path.join(__dirname, 'builds')})
+});
 
+app.get('/galaxySim', function(req, res, next) {
+  console.log('*********************galaxy************************')
+  res.sendFile(path, {root: './backend/builds/galaxySim'});
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -43,7 +43,6 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
 });
 
 module.exports = app;
