@@ -10,7 +10,7 @@ async function runBuildScripts(){
     // dir is a absolute route at this point
     const dirName = dir.split('/').pop()
     // Along side install and build this will delete all builds, make new build directories, and then copy the build files from each app to the backend build directory.
-    return `cd ${dir} && yarn install && yarn build && rm -r ../../backend/builds/${dirName} && mkdir ../../backend/builds/${dirName} || true && mv build/* ../../backend/builds/${dirName}`
+    return `cd ${dir} && yarn install && PUBLIC_URL=/${dirName} yarn build && rm -r ../../backend/builds/${dirName} && mkdir ../../backend/builds/${dirName} || true && mv build/* ../../backend/builds/${dirName}`
     }).join(' && ')
 
     

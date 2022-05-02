@@ -16,18 +16,15 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // TODO This could be done recursivly so it doesn't have to be defined for each app.
-app.use(express.static(path.join(__dirname,'./builds/portfolio')))
+app.use(express.static(path.join(__dirname,'./builds')))
 
 /* GET home page. */
 app.get('/', function(req, res, next) {
-  console.log('*********************portfolio************************')
-  console.log(path.join(__dirname, 'builds', 'portfolio', 'index.html'))
-  // res.sendFile('portfolio', {root: path.join(__dirname, 'builds')})
+  res.sendFile('index.html', {root: path.join(__dirname, 'builds', 'portfolio')})
 });
 
 app.get('/galaxySim', function(req, res, next) {
-  console.log('*********************galaxy************************')
-  res.sendFile(path, {root: './backend/builds/galaxySim'});
+  res.sendFile('index.html', {root: path.join(__dirname, 'builds', 'galaxy-sim')})
 });
 
 // catch 404 and forward to error handler
