@@ -6,9 +6,11 @@
   "dependencies": {
     "web-vitals": "^1.1.2"
   },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  },
   "scripts": {
-    "start": "cd ./src/backend && yarn start",
-    "server": "node src/backend/bin/www",
+    "start": "nodemon src/backend/bin/www",
     "build-all": "node ./scripts/build-all.js"
   }
 }

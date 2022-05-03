@@ -20,9 +20,6 @@
     "web-vitals": "^1.1.2",
     "webpack": "^5.70.0"
   },
-  "scripts": {
-    "start": "node ./bin/www"
-  },
   "browserslist": {
     "production": [
       ">0.2%",
