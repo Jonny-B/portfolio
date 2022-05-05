@@ -4,11 +4,12 @@ const GalaxyCanvas = props => {
   
   const canvasRef = useRef(null)
   
-  const draw = (ctx, frameCount) => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const draw = (ctx) => {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
-    ctx.fillStyle = '#000000'
+    ctx.fillStyle = '#ffffff'
     ctx.beginPath()
-    ctx.arc(50, 100, 20*Math.sin(frameCount*0.05)**2, 0, 2*Math.PI)
+    ctx.arc(100, 75, 5, 0, 2 * Math.PI);
     ctx.fill()
   }
   
@@ -22,7 +23,7 @@ const GalaxyCanvas = props => {
     //Our draw came here
     const render = () => {
       frameCount++
-      draw(context, frameCount)
+      draw(context)
       animationFrameId = window.requestAnimationFrame(render)
     }
     render()
