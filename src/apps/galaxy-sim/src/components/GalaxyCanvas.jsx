@@ -22,16 +22,19 @@ const GalaxyCanvas = props => {
     let m2 = stars[1].m;
     let dist = (stars[0].x - stars[1].x);
     let f = (gravConst * (m1 * m2)) / Math.pow(dist, 2);
-    // let breaker = !(dist < 0);
-    // Write some meta data to the console to help debuggin
-    console.log(
+    let breaker = (dist > 300);
+    if (!breaker){
+      // Write some meta data to the console to help debuggin
+      console.log(
       `dist: ${dist} force: ${f} vel: ${stars[0].v} position: ${stars[0].x}`
-    );
-    // New velocity of current star
-    stars[0].x += stars[0].v * dt;
-    // Position - adjust new position based on velocity and delta time.
-    stars[0].v =
+      );
+      // New velocity of current star
+      stars[0].x += stars[0].v * dt;
+      // Position - adjust new position based on velocity and delta time.
+      stars[0].v =
       dist < 0 ? stars[0].v + (f / m1) * dt : stars[0].v - (f / m1) * dt;
+    }
+
   };
 
   const drawStar = (stars, ctx) => {
