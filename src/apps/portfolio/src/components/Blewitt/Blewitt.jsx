@@ -5,7 +5,7 @@ import holdingHands from "./holdingHands.png";
 import notHoldingHands from "./notHoldingHands.png";
 import { helper } from "./Blewitt.helper";
 
-export default (props) => {
+export default function Blewitts (props) {
   const classes = useStyles();
 
   useEffect(() => {
@@ -27,6 +27,7 @@ export default (props) => {
             <Nav className="me-auto">
               <Nav.Link href="#home">Home</Nav.Link>
               <Nav.Link href="#link">Link</Nav.Link>
+              <div className={classes.navDivider}/>
               <Nav.Link href="#jonny">Jonny</Nav.Link>
               <Nav.Link href="#leah">Leah</Nav.Link>
             </Nav>
@@ -203,4 +204,9 @@ const useStyles = createUseStyles({
     position: "absolute",
     zIndex: "2",
   },
+  navDivider: {
+    margin: "11px 5px 0 5px",
+    height: "20px",
+    border: "rgba(255,255,255,.55) solid 1px",
+},
 });

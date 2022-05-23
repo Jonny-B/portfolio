@@ -36,7 +36,7 @@ export default function Jonny() {
           </Navbar.Collapse>
         </Navbar>
 
-        <div style={{marginBottom: "-300px", paddingLeft: "150px"}}>
+        <div style={{paddingLeft: "200px"}}>
           <Image src={jonnyFace}/>
         </div>
 
@@ -52,7 +52,8 @@ export default function Jonny() {
               history. I have been a Christian for 20 years now and it is the
               hope on which my life is built. I am always open to talking about
               my faith, particularly about how faith, logic, science, and
-              critical thinking intersect.
+              critical thinking intersect. Check out <a href={"https://jonnyblewitt.wordpress.com"}>my blog</a> if you are interested
+              in some of my code babble.
             </Card.Text>
           </Card.Body>
         </Card>
@@ -84,6 +85,53 @@ export default function Jonny() {
                     <Card.Img variant="top" src={nothingGif}/>
                     <Card.Body>
                       <Card.Title>Bill Blewitt</Card.Title>
+                      <Card.Text>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore
+                        magna aliqua. Ut enim ad minim veniam, quis nostrud
+                        exercitation ullamco laboris nisi ut aliquip ex ea
+                        commodo consequat.
+                      </Card.Text>
+                    </Card.Body>
+                  </Card>
+                </Col>
+                <Col>
+                  <Card style={{width: "18rem"}}>
+                    <Card.Img variant="top" src={nothingGif}/>
+                    <Card.Body>
+                      <Card.Title>Leah Blewitt</Card.Title>
+                      <Card.Text>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore
+                        magna aliqua. Ut enim ad minim veniam, quis nostrud
+                        exercitation ullamco laboris nisi ut aliquip ex ea
+                        commodo consequat.
+                      </Card.Text>
+                    </Card.Body>
+                  </Card>
+                </Col>
+                <Col>
+                  <Card style={{width: "18rem"}}>
+                    <Card.Img variant="top" src={nothingGif}/>
+                    <Card.Body>
+                      <Card.Title>William A. Blewitt II</Card.Title>
+                      <Card.Text>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore
+                        magna aliqua. Ut enim ad minim veniam, quis nostrud
+                        exercitation ullamco laboris nisi ut aliquip ex ea
+                        commodo consequat.
+                      </Card.Text>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Card style={{width: "18rem"}}>
+                    <Card.Img variant="top" src={nothingGif}/>
+                    <Card.Body>
+                      <Card.Title>Brian Lees</Card.Title>
                       <Card.Text>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit,
                         sed do eiusmod tempor incididunt ut labore et dolore
@@ -131,36 +179,6 @@ export default function Jonny() {
                     <Card.Img variant="top" src={nothingGif}/>
                     <Card.Body>
                       <Card.Title>Bill Blewitt</Card.Title>
-                      <Card.Text>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua. Ut enim ad minim veniam, quis nostrud
-                        exercitation ullamco laboris nisi ut aliquip ex ea
-                        commodo consequat.
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
-                </Col>
-                <Col>
-                  <Card style={{width: "18rem"}}>
-                    <Card.Img variant="top" src={nothingGif}/>
-                    <Card.Body>
-                      <Card.Title>Darby Dennis</Card.Title>
-                      <Card.Text>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua. Ut enim ad minim veniam, quis nostrud
-                        exercitation ullamco laboris nisi ut aliquip ex ea
-                        commodo consequat.
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
-                </Col>
-                <Col>
-                  <Card style={{width: "18rem"}}>
-                    <Card.Img variant="top" src={nothingGif}/>
-                    <Card.Body>
-                      <Card.Title>Donavan Stanley</Card.Title>
                       <Card.Text>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit,
                         sed do eiusmod tempor incididunt ut labore et dolore
