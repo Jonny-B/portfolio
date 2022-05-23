@@ -1,6 +1,5 @@
-import GalaxyCanvas from './components/GalaxyCanvas';
+import GalaxyCanvas from './components/GalaxyCanvas/GalaxyCanvas'
 import NavBar from './components/NavBar';
-import './App.css'
 
 function App() {
   return (
