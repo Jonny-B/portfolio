@@ -11,17 +11,18 @@ const GalaxyCanvas = () => {
 
     const setup = (pfive, parentRef) => {
         pfive.createCanvas(2500, 2500).parent(parentRef);
-        for (let i = 0; i < 700; i++) {
-            let x = getRandomCoord(2500);
-            let y = getRandomCoord(2500);
-            stars.push(new Star(x, y, pfive, 1));
+        for (let i = 0; i < 525; i++) {
+            let x = getRandomCoord(100);
+            let y = getRandomCoord(100);
+            stars.push(new Star(x + 1000, y + 1000, pfive, getRandomCoord(800)));
         }
 
-        // stars.push(new Star(200, 200, pfive, 1000));
+        stars.push(new Star(1050, 1050, pfive, 1000, [0, 0]));
+        stars.push(new Star(1040, 1040, pfive, 800, [1, 1]));
     };
 
     const draw = (pfive) => {
-        pfive.background(51);
+        pfive.background(0);
         pfive.stroke(255);
         pfive.strokeWeight(4);
         for (let i = 0; i < stars.length; i++) {
@@ -41,8 +42,8 @@ const GalaxyCanvas = () => {
     function calcAttractionForces(target1, target2, pfive) {
         var force = p5.Vector.sub(target2.pos, target1.pos);
         var dsquared = force.magSq();
-        dsquared = pfive.constrain(dsquared, 10, 250);
-        var G = 0.06674;
+        dsquared = pfive.constrain(dsquared, 5, 9000);
+        var G = 0.0006674;
         var m1 = target1.mass;
         var m2 = target2.mass;
         var magnitue = G * ((m1 * m2) / dsquared);
