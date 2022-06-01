@@ -7,7 +7,7 @@ import p5 from 'p5'
 type P5 = import("p5");
 
 const GalaxyCanvas = () => {
-    let stars: Array<Star>;
+    let stars: Array<Star> = [];
 
     let [shouldDraw, setShouldDraw] = useState(false)
 
@@ -56,7 +56,7 @@ const GalaxyCanvas = () => {
 
     };
 
-    function calcAttractionForces(target1, target2, pfive): void {
+    function calcAttractionForces(target1: Star, target2: Star, pfive: P5): void {
         var force = p5.Vector.sub(target2.pos, target1.pos);
         var dsquared = force.magSq();
         dsquared = pfive.constrain(dsquared, 5, 9000);
