@@ -4,24 +4,41 @@ import { Star } from './Star'
 import { Button } from 'react-bootstrap'
 import p5 from 'p5'
 
+type P5 = import("p5");
+
 const GalaxyCanvas = () => {
-    let stars = [];
+    let stars: Array<Star>;
 
     let [shouldDraw, setShouldDraw] = useState(false)
 
-    const setup = (pfive, parentRef) => {
+    const setup = (pfive: P5, parentRef: Element) => {
         pfive.createCanvas(2500, 2500).parent(parentRef);
-        for (let i = 0; i < 525; i++) {
-            let x = getRandomCoord(100);
-            let y = getRandomCoord(100);
-            stars.push(new Star(x + 1000, y + 1000, pfive, getRandomCoord(800)));
+        for (let i = 0; i < 350; i++) {
+            let x = getRandomCoord(1000, 500);
+            let y = getRandomCoord(1000, 500);
+            stars.push(new Star(x, y, pfive, getRandomCoord(0, 100)));
+        }
+        for (let i = 0; i < 150; i++) {
+            let x = getRandomCoord(1000, 500);
+            let y = getRandomCoord(1000, 500);
+            stars.push(new Star(x, y, pfive, getRandomCoord(0, 300)));
+        }
+        for (let i = 0; i < 50; i++) {
+            let x = getRandomCoord(1000, 500);
+            let y = getRandomCoord(1000, 500);
+            stars.push(new Star(x, y, pfive, getRandomCoord(0, 500)));
+        }
+        for (let i = 0; i < 12; i++) {
+            let x = getRandomCoord(1000, 500);
+            let y = getRandomCoord(1000, 500);
+            stars.push(new Star(x, y, pfive, getRandomCoord(0, 999)));
         }
 
         stars.push(new Star(1050, 1050, pfive, 1000, [0, 0]));
         stars.push(new Star(1040, 1040, pfive, 800, [1, 1]));
     };
 
-    const draw = (pfive) => {
+    const draw = (pfive: P5) => {
         pfive.background(0);
         pfive.stroke(255);
         pfive.strokeWeight(4);
@@ -39,11 +56,11 @@ const GalaxyCanvas = () => {
 
     };
 
-    function calcAttractionForces(target1, target2, pfive) {
+    function calcAttractionForces(target1, target2, pfive): void {
         var force = p5.Vector.sub(target2.pos, target1.pos);
         var dsquared = force.magSq();
         dsquared = pfive.constrain(dsquared, 5, 9000);
-        var G = 0.0006674;
+        var G = 0.6674;
         var m1 = target1.mass;
         var m2 = target2.mass;
         var magnitue = G * ((m1 * m2) / dsquared);
@@ -52,8 +69,10 @@ const GalaxyCanvas = () => {
         target2.acc.add(p5.Vector.div(force, -target2.mass));
     }
 
-    function getRandomCoord(max) {
-        return Math.floor(Math.random() * max);
+    function getRandomCoord(min: number, max: number): number {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
     }
 
     return (
