@@ -52,6 +52,7 @@ const GalaxyCanvas = () => {
     return (
         <>
             <Button onClick={() => { setShouldDraw(true) }}>Try It</Button>
+            <Button onClick={() => { setShouldDraw(false) }}>Reset</Button>
             {shouldDraw ? <Sketch setup={setup} draw={draw} /> : <></>}
         </>
     );
