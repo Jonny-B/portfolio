@@ -13,7 +13,7 @@ const helper = {
         let stars: Array<Star> = [];
         let xMin = window.width * .25
         let xMax = window.width * .75
-        let yMin = window.height * .25
+        let yMin = window.height * .05
         let yMax = window.height * .75
 
         console.log(`xMin: ${xMin} xMax: ${xMax}`)

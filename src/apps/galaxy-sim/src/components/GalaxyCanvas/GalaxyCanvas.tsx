@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Sketch from 'react-p5';
 import p5 from 'p5'
 import { Star } from './Star'
-import { Button } from 'react-bootstrap'
+import { Button, Form } from 'react-bootstrap'
 import helper from './GalaxyCanvas.helper'
 
 type P5 = import("p5");
@@ -56,11 +56,23 @@ const GalaxyCanvas = () => {
 
 
     return (
-        <>
+        <div className="galaxy-canvas">
             <Button onClick={() => { setShouldDraw(true) }}>Try It</Button>
-            <Button onClick={handleReset}>Reset</Button>
+            <Form className="initial-condition-modifier">
+                <fieldset>
+                    <Form.Group className="mb-3 initial-condition-modifier">
+                        <Form.Label className="initial-condition-modifier-label">Stars</Form.Label>
+                        <Form.Control className="initial-condition-modifier-form" placeholder="# of Stars" />
+                    </Form.Group>
+                    <Form.Group className="mb-3 initial-condition-modifier">
+                        <Form.Label className="l">Black Holes</Form.Label>
+                        <Form.Control className="" placeholder="# of Black Holes" />
+                    </Form.Group>
+                    <Button onClick={handleReset}>Reset</Button>
+                </fieldset>
+            </Form>
             {shouldDraw ? <Sketch setup={setup} draw={draw} /> : <></>}
-        </>
+        </div>
     );
 }
 

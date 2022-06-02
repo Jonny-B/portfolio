@@ -1,3 +1,19 @@
 body {
     background-color: black
 }
+
+.galaxy-canvas {
+    padding: 25px;
+}
+
+.initial-condition-modifier {
+    width: 150px;
+}
+
+.initial-condition-modifiers-label {
+    color: whitesmoke !important;
+}
+
+.initial-condition-modifiers-form {
+    color: whitesmoke;
+}
