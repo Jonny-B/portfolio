@@ -11,10 +11,11 @@ const GalaxyCanvas = () => {
     let stars: Array<Star> = [];
 
     let [shouldDraw, setShouldDraw] = useState(false)
+    let [windowDimensions, setWindowDimensions] = useState(helper.getWindowDimensions(window))
 
     const setup = (pfive: P5, parentRef: Element) => {
-        pfive.createCanvas(2500, 2500).parent(parentRef);
-        stars = helper.createStarField(pfive)
+        pfive.createCanvas(windowDimensions.width, windowDimensions.height).parent(parentRef);
+        stars = helper.createStarField(pfive, windowDimensions)
     };
 
     const draw = (pfive: P5) => {
@@ -35,6 +36,11 @@ const GalaxyCanvas = () => {
 
     };
 
+    function handleReset() {
+        setShouldDraw(false)
+        setWindowDimensions(helper.getWindowDimensions(window))
+    }
+
     function calcAttractionForces(target1: Star, target2: Star, pfive: P5): void {
         var force = p5.Vector.sub(target2.pos, target1.pos);
         var dsquared = force.magSq();
@@ -52,7 +58,7 @@ const GalaxyCanvas = () => {
     return (
         <>
             <Button onClick={() => { setShouldDraw(true) }}>Try It</Button>
-            <Button onClick={() => { setShouldDraw(false) }}>Reset</Button>
+            <Button onClick={handleReset}>Reset</Button>
             {shouldDraw ? <Sketch setup={setup} draw={draw} /> : <></>}
         </>
     );
