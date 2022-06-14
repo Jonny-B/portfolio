@@ -44,8 +44,8 @@ const GalaxyCanvas = () => {
     function calcAttractionForces(target1: Star, target2: Star, pfive: P5): void {
         var force = p5.Vector.sub(target2.pos, target1.pos);
         var dsquared = force.magSq();
-        dsquared = pfive.constrain(dsquared, 5, 9000);
-        var G = 0.006674;
+        dsquared = pfive.constrain(dsquared, 5, 50000);
+        var G = 0.0006674;
         var m1 = target1.mass;
         var m2 = target2.mass;
         var magnitue = G * ((m1 * m2) / dsquared);
@@ -57,20 +57,35 @@ const GalaxyCanvas = () => {
 
     return (
         <div className="galaxy-canvas">
-            <Button onClick={() => { setShouldDraw(true) }}>Try It</Button>
-            <Form className="initial-condition-modifier">
-                <fieldset>
-                    <Form.Group className="mb-3 initial-condition-modifier">
-                        <Form.Label className="initial-condition-modifier-label">Stars</Form.Label>
-                        <Form.Control className="initial-condition-modifier-form" placeholder="# of Stars" />
-                    </Form.Group>
-                    <Form.Group className="mb-3 initial-condition-modifier">
-                        <Form.Label className="l">Black Holes</Form.Label>
-                        <Form.Control className="" placeholder="# of Black Holes" />
-                    </Form.Group>
-                    <Button onClick={handleReset}>Reset</Button>
-                </fieldset>
-            </Form>
+            <Button size={'sm'} onClick={() => { setShouldDraw(true) }}>Try It</Button>
+            <Button size={'sm'} onClick={handleReset}>Reset</Button>
+
+            <div className="initial-condition-modifier">
+                <Form.Label># Stars</Form.Label>
+                <Form.Control size={'sm'} type="number" value={750}/>
+
+                <Form.Label>Star Type Percentage</Form.Label>
+                <Form.Label>Black Holes</Form.Label>
+                <Form.Control size={'sm'} type="number" defaultValue={1}/>
+                <Form.Label>Blue Giant</Form.Label>
+                <Form.Control size={'sm'} type="number" defaultValue={12}/>
+                <Form.Label>Blue</Form.Label>
+                <Form.Control size={'sm'} type="number" defaultValue={50}/>
+                <Form.Label>Yellow</Form.Label>
+                <Form.Control size={'sm'} type="number" defaultValue={150}/>
+                <Form.Label>Red Dwarf</Form.Label>
+                <Form.Control size={'sm'} type="number" defaultValue={350}/>
+                
+
+                <Form.Label>Stars Field Dimensions</Form.Label>
+                <Form.Control size={'sm'} type="number" placeholder={'x'} defaultValue={windowDimensions.width}/>
+                <Form.Control size={'sm'} type="number" placeholder={'y'} defaultValue={windowDimensions.height}/>
+
+                <Form.Label>Gravitational Constant</Form.Label>
+                <Form.Control size={'sm'} type="number" defaultValue={0.006674}/>
+
+
+            </div>
             {shouldDraw ? <Sketch setup={setup} draw={draw} /> : <></>}
         </div>
     );

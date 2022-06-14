@@ -34,13 +34,13 @@ export class Star {
             this.p5.strokeWeight(2);
         }
         else if (this.mass <= 300) {
-            // Yellow Main Sequence
+            // Yellow
             this.p5.stroke(255)
             this.p5.strokeWeight(2);
         }
         else if (this.mass <= 500) {
-            // Red Gaint
-            this.p5.stroke(250, 162, 135)
+            // Blue
+            this.p5.stroke(234, 240, 240)
             this.p5.strokeWeight(2);
         }
         else if (this.mass <= 999) {
