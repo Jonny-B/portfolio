@@ -2,6 +2,10 @@ body {
     background-color: black
 }
 
+button {
+    margin: 8px;
+}
+
 .galaxy-canvas {
     padding: 25px;
 }
@@ -12,6 +16,8 @@ body {
     flex-direction: column;
     position: absolute;
     left: 0px;
+    background-color: darkblue;
+    padding: 15px;
 
 }
 

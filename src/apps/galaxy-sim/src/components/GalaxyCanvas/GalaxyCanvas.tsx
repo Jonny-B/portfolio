@@ -1,24 +1,39 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Sketch from 'react-p5';
 import p5 from 'p5'
 import { Star } from './Star'
 import { Button, Form } from 'react-bootstrap'
 import helper from './GalaxyCanvas.helper'
-
+import { InitialStarTypes } from '../../types'
 type P5 = import("p5");
 
 const GalaxyCanvas = () => {
     let stars: Array<Star> = [];
 
-    let [shouldDraw, setShouldDraw] = useState(false)
     let [windowDimensions, setWindowDimensions] = useState(helper.getWindowDimensions(window))
+    let [shouldDraw, setShouldDraw] = useState<boolean>(false)
+    let [blackHoles, setBlackHoles] = useState<number>(1)
+    let [blueGiants, setBlueGiants] = useState<number>(12)
+    let [blues, setBlues] = useState<number>(50)
+    let [yellows, setYellows] = useState<number>(150)
+    let [redDwarfs, setRedDwarfs] = useState<number>(350)
+    let [starFieldX, setStarFieldX] = useState<number>(windowDimensions.width)
+    let [starFieldY, setStarFieldY] = useState<number>(windowDimensions.height)
+    let [gravConst, setGravConst] = useState<string>('0.006674')
+    let [initialStarTypes, setInitialStarTypes] = useState<InitialStarTypes>({blackHoles: 0, blueGiants: 0, blues: 0, yellows: 0, redDwarfs: 0});
 
     const setup = (pfive: P5, parentRef: Element) => {
-        pfive.createCanvas(windowDimensions.width, windowDimensions.height).parent(parentRef);
-        stars = helper.createStarField(pfive, windowDimensions)
+        pfive.createCanvas(starFieldX, starFieldY).parent(parentRef);
+        stars = helper.createStarField(pfive, {width: starFieldX, height: starFieldY}, initialStarTypes)
     };
 
+    useEffect(() => {
+        setInitialStarTypes({ blackHoles, blueGiants, blues, yellows, redDwarfs })
+    }, [blackHoles, blueGiants, blues, yellows, redDwarfs])
+
     const draw = (pfive: P5) => {
+        console.log(`Grav Const: ${gravConst}`)
+
         pfive.background(0);
         pfive.stroke(255);
         pfive.strokeWeight(4);
@@ -44,8 +59,8 @@ const GalaxyCanvas = () => {
     function calcAttractionForces(target1: Star, target2: Star, pfive: P5): void {
         var force = p5.Vector.sub(target2.pos, target1.pos);
         var dsquared = force.magSq();
-        dsquared = pfive.constrain(dsquared, 5, 50000);
-        var G = 0.0006674;
+        dsquared = pfive.constrain(dsquared, 5, 5000);
+        var G = parseFloat(gravConst);
         var m1 = target1.mass;
         var m2 = target2.mass;
         var magnitue = G * ((m1 * m2) / dsquared);
@@ -62,27 +77,27 @@ const GalaxyCanvas = () => {
 
             <div className="initial-condition-modifier">
                 <Form.Label># Stars</Form.Label>
-                <Form.Control size={'sm'} type="number" value={750}/>
+                <Form.Control disabled size={'sm'} type="number" value={750} />
 
-                <Form.Label>Star Type Percentage</Form.Label>
+                <Form.Label>Star # By Type</Form.Label>
                 <Form.Label>Black Holes</Form.Label>
-                <Form.Control size={'sm'} type="number" defaultValue={1}/>
+                <Form.Control size={'sm'} type="number" defaultValue={1} onChange={(e) => { setBlackHoles(parseInt(e.currentTarget.value)) }} />
                 <Form.Label>Blue Giant</Form.Label>
-                <Form.Control size={'sm'} type="number" defaultValue={12}/>
+                <Form.Control size={'sm'} type="number" defaultValue={12} onChange={(e) => { setBlueGiants(parseInt(e.currentTarget.value)) }} />
                 <Form.Label>Blue</Form.Label>
-                <Form.Control size={'sm'} type="number" defaultValue={50}/>
+                <Form.Control size={'sm'} type="number" defaultValue={50} onChange={(e) => { setBlues(parseInt(e.currentTarget.value)) }} />
                 <Form.Label>Yellow</Form.Label>
-                <Form.Control size={'sm'} type="number" defaultValue={150}/>
+                <Form.Control size={'sm'} type="number" defaultValue={150} onChange={(e) => { setYellows(parseInt(e.currentTarget.value)) }} />
                 <Form.Label>Red Dwarf</Form.Label>
-                <Form.Control size={'sm'} type="number" defaultValue={350}/>
-                
+                <Form.Control size={'sm'} type="number" defaultValue={350} onChange={(e) => { setRedDwarfs(parseInt(e.currentTarget.value)) }} />
+
 
                 <Form.Label>Stars Field Dimensions</Form.Label>
-                <Form.Control size={'sm'} type="number" placeholder={'x'} defaultValue={windowDimensions.width}/>
-                <Form.Control size={'sm'} type="number" placeholder={'y'} defaultValue={windowDimensions.height}/>
+                <Form.Control size={'sm'} type="number" placeholder={'x'} defaultValue={windowDimensions.width} onChange={(e) => { setStarFieldX(parseInt(e.currentTarget.value)) }} />
+                <Form.Control size={'sm'} type="number" placeholder={'y'} defaultValue={windowDimensions.height} onChange={(e) => { setStarFieldY(parseInt(e.currentTarget.value)) }} />
 
                 <Form.Label>Gravitational Constant</Form.Label>
-                <Form.Control size={'sm'} type="number" defaultValue={0.006674}/>
+                <Form.Control size={'sm'} type="number" defaultValue={0.006674} onChange={(e) => { setGravConst(e.currentTarget.value) }} />
 
 
             </div>
