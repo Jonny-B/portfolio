@@ -1,5 +1,6 @@
 import './GalaxyCanvas.css'
 import P5 from 'p5'
+import { InitialScenario } from '../../types';
 
 export class Star {
     x: number;
@@ -10,14 +11,14 @@ export class Star {
     vel: P5.Vector;
     acc: P5.Vector;
 
-    constructor(x: number, y: number, pfive: P5, m: number = 1, v: Array<number> = [0, 0]) {
+    constructor(x: number, y: number, pfive: P5, mass: number = 1, initVel: Array<number> = [0, 0]) {
         this.x = x;
         this.y = y;
         this.p5 = pfive;
-        this.mass = m;
+        this.mass = mass;
         this.pos = this.p5.createVector(x, y);
         // this.vel = this.p5.createVector(this.#getRandomCoord(1), this.#getRandomCoord(1))
-        this.vel = this.p5.createVector(v[0], v[0])
+        this.vel = this.p5.createVector(initVel[0], initVel[1], 0)
         this.acc = this.p5.createVector();
     }
 
@@ -27,7 +28,22 @@ export class Star {
         this.acc.mult(0);
     };
 
-    show(): void {
+    show(scenario: InitialScenario): void {
+        switch (scenario) {
+            case 'Random Distribution':
+                this.randomScenario();
+                break;
+            case 'Simple Orbit':
+                this.simpleOrbit();
+                break;
+            default:
+                this.randomScenario();
+                break;
+        }
+    };
+
+    // Internal Functions
+    randomScenario(): void {
         if (this.mass <= 100) {
             // Red Dwarf
             this.p5.stroke(245, 171, 171)
@@ -53,7 +69,20 @@ export class Star {
             this.p5.stroke(0);
             this.p5.strokeWeight(1);
         }
-        
+
         this.p5.point(this.pos.x, this.pos.y)
-    };
+    }
+
+    simpleOrbit(): void {
+        if (this.mass > 999) {
+            this.p5.stroke(255)
+            this.p5.strokeWeight(10);
+        }
+        else {
+            this.p5.stroke(160, 184, 250)
+            this.p5.strokeWeight(4);
+        }
+
+        this.p5.point(this.pos.x, this.pos.y)
+    }
 };

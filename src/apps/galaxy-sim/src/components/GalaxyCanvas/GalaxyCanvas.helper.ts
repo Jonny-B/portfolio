@@ -1,7 +1,7 @@
 import { Star } from './Star'
 import p5 from 'p5'
 import { WindowDimensions, InitialStarType, InitialScenario } from '../../types';
-import { randomScenario } from './GalaxyCanvas.scenarios';
+import { randomScenario, simpleOrbit } from './GalaxyCanvas.scenarios';
 
 
 
@@ -14,7 +14,10 @@ const helper = {
                 randomScenario(pfive, window, types, stars)
                 break;
             case 'Simple Orbit':
-                // simpleOrbit(pfive, window, types, stars)
+                simpleOrbit(pfive, window, stars)
+                break;
+            case 'Earth|Moon|Sun Orbit':
+                simpleOrbit(pfive, window, stars)
                 break;
             case 'Solar System':
                 // solarSystem(pfive, window, types, stars)
@@ -51,9 +54,9 @@ const helper = {
         };
     },
     getRandomValue: (min: number, max: number): number => {
-            min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
     }
 }
 

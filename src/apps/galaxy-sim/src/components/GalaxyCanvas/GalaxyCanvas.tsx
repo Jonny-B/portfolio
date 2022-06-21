@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Sketch from 'react-p5';
 import { Star } from './Star'
 import { Button, Form } from 'react-bootstrap'
 import helper from './GalaxyCanvas.helper'
-import { drawRandomScenario } from './GalaxyCanvas.scenarios';
 import { InitialScenario, InitialStarType } from '../../types'
 type P5 = import("p5");
 
@@ -22,10 +21,12 @@ const GalaxyCanvas = () => {
     let [starFieldY, setStarFieldY] = useState<number>(windowDimensions.height)
     let [gravConst, setGravConst] = useState<string>('0.006674')
     let [initialStarTypes, setInitialStarTypes] = useState<InitialStarType>({ blackHoles: 0, blueGiants: 0, blues: 0, yellows: 0, redDwarfs: 0 });
+    let [showOrbitTrails, setShowOrbitTrails] = useState(false);
 
     const setup = (pfive: P5, parentRef: Element) => {
         pfive.createCanvas(starFieldX, starFieldY).parent(parentRef);
         stars = helper.createStarField(pfive, { width: starFieldX, height: starFieldY }, initialStarTypes, scenario)
+        pfive.background(0);
     };
 
     useEffect(() => {
@@ -33,12 +34,35 @@ const GalaxyCanvas = () => {
     }, [blackHoles, blueGiants, blues, yellows, redDwarfs])
 
     const draw = (pfive: P5) => {
-        drawRandomScenario(pfive, gravConst, stars)
+        // Redrawing background will remove trails
+        if (!showOrbitTrails) pfive.background(0);
+
+        pfive.stroke(255);
+        pfive.strokeWeight(4);
+        for (let i = 0; i < stars.length; i++) {
+            stars[i].show(scenario);
+            stars[i].update()
+        }
+        for (let i = 0; i < stars.length - 1; i++) {
+            for (let j = 0 + i; j < stars.length; j++) {
+                // We don't want to calculate the same star against itself
+                if (i === j) continue;
+                helper.calcAttractionForces(stars[i], stars[j], pfive, gravConst);
+            }
+        }
     };
 
     function handleReset() {
         setShouldDraw(false)
         setWindowDimensions(helper.getWindowDimensions(window))
+    }
+
+    function handleScenarioSelect(e: React.ChangeEvent<HTMLSelectElement>) {
+        setScenario(e.currentTarget.value as InitialScenario)
+        if (e.currentTarget.value === 'Simple Orbit') {
+            setGravConst('0.0006674')
+            setShowOrbitTrails(true);
+        }
     }
 
     return (
@@ -48,7 +72,7 @@ const GalaxyCanvas = () => {
 
             <div className="initial-condition-modifier">
                 <Form.Label>Scenarios</Form.Label>
-                <Form.Select defaultValue={'Random Distribution'} onChange={(e) => { setScenario(e.currentTarget.value as InitialScenario) }}>
+                <Form.Select defaultValue={'Random Distribution'} onChange={(e) => { handleScenarioSelect(e) }}>
                     <option>Simple Orbit</option>
                     <option>Solar System</option>
                     <option>Galaxy</option>
@@ -73,16 +97,21 @@ const GalaxyCanvas = () => {
                             <Form.Label>Red Dwarf</Form.Label>
                             <Form.Control size={'sm'} type="number" defaultValue={350} onChange={(e) => { setRedDwarfs(parseInt(e.currentTarget.value)) }} />
 
-                            <Form.Label>Gravitational Constant</Form.Label>
-                            <Form.Control size={'sm'} type="number" defaultValue={0.006674} onChange={(e) => { setGravConst(e.currentTarget.value) }} />
                         </>
                         :
                         <></>
                 }
 
+                <Form.Label>Gravitational Constant</Form.Label>
+                <Form.Control size={'sm'} type="number" value={gravConst} onChange={(e) => { setGravConst(e.currentTarget.value) }} />
+
+                <Form.Label>Show Orbit Lines</Form.Label>
+                <Form.Check value={"true"} type="switch" checked={showOrbitTrails} onChange={() => { setShowOrbitTrails(!showOrbitTrails) }} />
+
                 <Form.Label>Stars Field Dimensions</Form.Label>
                 <Form.Control size={'sm'} type="number" placeholder={'x'} defaultValue={windowDimensions.width} onChange={(e) => { setStarFieldX(parseInt(e.currentTarget.value)) }} />
                 <Form.Control size={'sm'} type="number" placeholder={'y'} defaultValue={windowDimensions.height} onChange={(e) => { setStarFieldY(parseInt(e.currentTarget.value)) }} />
+
 
 
             </div>

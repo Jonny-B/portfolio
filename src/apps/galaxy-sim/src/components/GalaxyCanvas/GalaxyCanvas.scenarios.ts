@@ -42,29 +42,29 @@ export function randomScenario(pfive: p5, window: WindowDimensions, types: Initi
     }
 }
 
-export function drawRandomScenario(pfive: p5, gravConst: string, stars: Array<Star>){
-        console.log(`Grav Const: ${gravConst}`)
-
-        pfive.background(0);
-        pfive.stroke(255);
-        pfive.strokeWeight(4);
-        for (let i = 0; i < stars.length; i++) {
-            stars[i].show();
-            stars[i].update()
-        }
-        for (let i = 0; i < stars.length - 1; i++) {
-            for (let j = 0 + i; j < stars.length; j++) {
-                // We don't want to calculate the same star against itself
-                if (i === j) continue;
-                helper.calcAttractionForces(stars[i], stars[j], pfive, gravConst);
-            }
-        }
-}
-
 export function simpleOrbit(pfive: p5, window: WindowDimensions, stars: Array<Star>){
     let x = window.width;
     let y = window.height;
 
+    console.log(`x: ${x} y: ${y}`)
     // yellow star in center of window
-    stars.push(new Star(x * .50, y * .50, pfive, 1000, [0, 0]));
+    stars.push(new Star(x * .50, y * .50, pfive, 100000, [0, 0]));
+
+    // earth like planet in orbit
+    stars.push(new Star(x * .50, y * .40, pfive, 100, [.85, 0]));
+}
+
+export function earthMoonSunOrbit(pfive: p5, window: WindowDimensions, stars: Array<Star>){
+    let x = window.width;
+    let y = window.height;
+
+    console.log(`x: ${x} y: ${y}`)
+    // yellow star in center of window
+    stars.push(new Star(x * .50, y * .50, pfive, 100000, [0, 0]));
+
+    // earth like planet in orbit
+    stars.push(new Star(x * .50, y * .40, pfive, 100, [.85, 0]));
+
+    // earth like planet in orbit
+    // stars.push(new Star(x * .50, y * .40, pfive, 100, [1, 0]));
 }
