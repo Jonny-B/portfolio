@@ -20,11 +20,11 @@ const GalaxyCanvas = () => {
     let [starFieldX, setStarFieldX] = useState<number>(windowDimensions.width)
     let [starFieldY, setStarFieldY] = useState<number>(windowDimensions.height)
     let [gravConst, setGravConst] = useState<string>('0.006674')
-    let [initialStarTypes, setInitialStarTypes] = useState<InitialStarTypes>({blackHoles: 0, blueGiants: 0, blues: 0, yellows: 0, redDwarfs: 0});
+    let [initialStarTypes, setInitialStarTypes] = useState<InitialStarTypes>({ blackHoles: 0, blueGiants: 0, blues: 0, yellows: 0, redDwarfs: 0 });
 
     const setup = (pfive: P5, parentRef: Element) => {
         pfive.createCanvas(starFieldX, starFieldY).parent(parentRef);
-        stars = helper.createStarField(pfive, {width: starFieldX, height: starFieldY}, initialStarTypes)
+        stars = helper.createStarField(pfive, { width: starFieldX, height: starFieldY }, initialStarTypes)
     };
 
     useEffect(() => {
@@ -59,7 +59,7 @@ const GalaxyCanvas = () => {
     function calcAttractionForces(target1: Star, target2: Star, pfive: P5): void {
         var force = p5.Vector.sub(target2.pos, target1.pos);
         var dsquared = force.magSq();
-        dsquared = pfive.constrain(dsquared, 5, 5000);
+        dsquared = pfive.constrain(dsquared, 5, 9999);
         var G = parseFloat(gravConst);
         var m1 = target1.mass;
         var m2 = target2.mass;
@@ -76,6 +76,15 @@ const GalaxyCanvas = () => {
             <Button size={'sm'} onClick={handleReset}>Reset</Button>
 
             <div className="initial-condition-modifier">
+                <Form.Label>Scenarios</Form.Label>
+                <Form.Select>
+                    <option>Simple Orbit</option>
+                    <option>Solar Sytem</option>
+                    <option>Galaxy</option>
+                    <option>Colliding Galaxies</option>
+                    <option>Random Distribution</option>
+                </Form.Select>
+
                 <Form.Label># Stars</Form.Label>
                 <Form.Control disabled size={'sm'} type="number" value={750} />
 
