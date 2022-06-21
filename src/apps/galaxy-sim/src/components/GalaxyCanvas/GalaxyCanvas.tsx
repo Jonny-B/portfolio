@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import Sketch from 'react-p5';
-import p5 from 'p5'
 import { Star } from './Star'
 import { Button, Form } from 'react-bootstrap'
 import helper from './GalaxyCanvas.helper'
