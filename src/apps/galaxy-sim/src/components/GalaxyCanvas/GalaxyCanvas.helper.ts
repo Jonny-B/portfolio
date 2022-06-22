@@ -1,10 +1,10 @@
 import { Star } from './Star'
 import p5 from 'p5'
 import { WindowDimensions, InitialStarType, InitialScenario } from '../../types';
-import { earthMoonSunOrbit, randomScenario, simpleOrbit, solarSystem } from './GalaxyCanvas.scenarios';
+import { earthMoonSunOrbit, randomScenario, simpleOrbit, solarSystem, solarSystemCollision, galaxy } from './GalaxyCanvas.scenarios';
 
 
-
+// let counter = 0;
 const helper = {
     createStarField: (pfive: p5, window: WindowDimensions, types: InitialStarType, scenario: InitialScenario): Array<Star> => {
         let stars: Array<Star> = [];
@@ -22,11 +22,11 @@ const helper = {
             case 'Solar System':
                 solarSystem(pfive, window, stars)
                 break;
-            case 'Galaxy':
-                // galaxy(pfive, window, types, stars)
+            case 'Solar System Collision':
+                solarSystemCollision(pfive, window, stars)
                 break;
-            case 'Galactic Collision':
-                // galacticCollision(pfive, window, types, stars)
+            case 'Galaxy':
+                galaxy(pfive, window, stars)
                 break;
             default:
                 randomScenario(pfive, window, types, stars)
@@ -45,6 +45,13 @@ const helper = {
         force.setMag(magnitue);
         target1.acc.add(p5.Vector.div(force, target1.mass));
         target2.acc.add(p5.Vector.div(force, -target2.mass));
+
+        // counter += 1;
+        // console.log(counter)
+        // if (counter % 15 === 0) {
+        //     console.log(`stars.push(new Star(${target1.pos.x}, ${target1.pos.y}, pfive, 100, [${target1.vel.x}, ${target1.vel.y}]))`)
+        // }
+
     },
     getWindowDimensions: (window: Window): WindowDimensions => {
         const { innerWidth: width, innerHeight: height } = window;

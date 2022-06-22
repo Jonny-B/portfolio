@@ -37,10 +37,15 @@ export class Star {
                 this.simpleOrbit();
                 break;
             case 'Earth|Moon|Sun Orbit':
-                this.earthMoonSunOrbit();
                 break;
             case 'Solar System':
                 this.solarSystem();
+                break;
+            case 'Solar System Collision':
+                this.solarSystemCollision();
+                break;
+            case 'Galaxy':
+                this.galaxy();
                 break;
             default:
                 this.randomScenario();
@@ -109,7 +114,7 @@ export class Star {
         this.p5.point(this.pos.x, this.pos.y)
     }
 
-        solarSystem(): void {
+    solarSystem(): void {
         if (this.mass > 10000) {
             this.p5.stroke(255)
             this.p5.strokeWeight(10);
@@ -122,6 +127,39 @@ export class Star {
             this.p5.stroke(124, 252, 0)
             this.p5.strokeWeight(2);
         }
+
+        this.p5.point(this.pos.x, this.pos.y)
+    }
+
+    solarSystemCollision(): void {
+        if (this.mass > 10000) {
+            this.p5.stroke(255)
+            this.p5.strokeWeight(10);
+        }
+        else if (this.mass > 999) {
+            this.p5.stroke(160, 184, 250)
+            this.p5.strokeWeight(4);
+        }
+        else {
+            this.p5.stroke(124, 252, 0)
+            this.p5.strokeWeight(2);
+        }
+
+        this.p5.point(this.pos.x, this.pos.y)
+    }
+
+    galaxy(): void {
+        if (this.mass <= 1000) {
+            this.p5.stroke(255)
+            this.p5.strokeWeight(3);
+        }
+        else {
+            // Black Hole
+            this.p5.stroke(255)
+            this.p5.strokeWeight(10);
+        }
+
+        this.p5.point(this.pos.x, this.pos.y)
 
         this.p5.point(this.pos.x, this.pos.y)
     }

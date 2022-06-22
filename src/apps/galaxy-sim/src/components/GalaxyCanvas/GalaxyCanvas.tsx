@@ -64,8 +64,12 @@ const GalaxyCanvas = () => {
             setGravConst('0.0006674')
             setShowOrbitTrails(true);
         }
-        if (e.currentTarget.value === 'Earth|Moon|Sun Orbit') {
+        else if (s === 'Earth|Moon|Sun Orbit' || s === 'Galaxy') {
             setGravConst('0.0006674')
+        }
+        else if (s === 'Solar System Collision') {
+            setGravConst('0.00006674')
+                        setShowOrbitTrails(true);
         }
     }
 
@@ -76,12 +80,12 @@ const GalaxyCanvas = () => {
 
             <div className="initial-condition-modifier">
                 <Form.Label>Scenarios</Form.Label>
-                <Form.Select defaultValue={'Random Distribution'} onChange={(e) => { handleScenarioSelect(e) }}>
+                <Form.Select size={'sm'} defaultValue={'Random Distribution'} onChange={(e) => { handleScenarioSelect(e) }}>
                     <option>Simple Orbit</option>
                     <option>Earth|Moon|Sun Orbit</option>
                     <option>Solar System</option>
+                    <option>Solar System Collision</option>
                     <option>Galaxy</option>
-                    <option>Colliding Galaxies</option>
                     <option>Random Distribution</option>
                 </Form.Select>
                 {
