@@ -1,7 +1,7 @@
 import { Star } from './Star'
 import p5 from 'p5'
 import { WindowDimensions, InitialStarType, InitialScenario } from '../../types';
-import { randomScenario, simpleOrbit } from './GalaxyCanvas.scenarios';
+import { earthMoonSunOrbit, randomScenario, simpleOrbit, solarSystem } from './GalaxyCanvas.scenarios';
 
 
 
@@ -17,10 +17,10 @@ const helper = {
                 simpleOrbit(pfive, window, stars)
                 break;
             case 'Earth|Moon|Sun Orbit':
-                simpleOrbit(pfive, window, stars)
+                earthMoonSunOrbit(pfive, window, stars)
                 break;
             case 'Solar System':
-                // solarSystem(pfive, window, types, stars)
+                solarSystem(pfive, window, stars)
                 break;
             case 'Galaxy':
                 // galaxy(pfive, window, types, stars)

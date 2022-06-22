@@ -59,9 +59,13 @@ const GalaxyCanvas = () => {
 
     function handleScenarioSelect(e: React.ChangeEvent<HTMLSelectElement>) {
         setScenario(e.currentTarget.value as InitialScenario)
-        if (e.currentTarget.value === 'Simple Orbit') {
+        let s = e.currentTarget.value
+        if (s === 'Simple Orbit' || s === 'Solar System') {
             setGravConst('0.0006674')
             setShowOrbitTrails(true);
+        }
+        if (e.currentTarget.value === 'Earth|Moon|Sun Orbit') {
+            setGravConst('0.0006674')
         }
     }
 
@@ -74,6 +78,7 @@ const GalaxyCanvas = () => {
                 <Form.Label>Scenarios</Form.Label>
                 <Form.Select defaultValue={'Random Distribution'} onChange={(e) => { handleScenarioSelect(e) }}>
                     <option>Simple Orbit</option>
+                    <option>Earth|Moon|Sun Orbit</option>
                     <option>Solar System</option>
                     <option>Galaxy</option>
                     <option>Colliding Galaxies</option>

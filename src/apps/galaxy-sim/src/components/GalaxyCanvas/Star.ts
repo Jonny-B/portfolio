@@ -36,6 +36,12 @@ export class Star {
             case 'Simple Orbit':
                 this.simpleOrbit();
                 break;
+            case 'Earth|Moon|Sun Orbit':
+                this.earthMoonSunOrbit();
+                break;
+            case 'Solar System':
+                this.solarSystem();
+                break;
             default:
                 this.randomScenario();
                 break;
@@ -81,6 +87,40 @@ export class Star {
         else {
             this.p5.stroke(160, 184, 250)
             this.p5.strokeWeight(4);
+        }
+
+        this.p5.point(this.pos.x, this.pos.y)
+    }
+
+    earthMoonSunOrbit(): void {
+        if (this.mass > 10000) {
+            this.p5.stroke(255)
+            this.p5.strokeWeight(10);
+        }
+        else if (this.mass > 999) {
+            this.p5.stroke(160, 184, 250)
+            this.p5.strokeWeight(4);
+        }
+        else {
+            this.p5.stroke(124, 252, 0)
+            this.p5.strokeWeight(2);
+        }
+
+        this.p5.point(this.pos.x, this.pos.y)
+    }
+
+        solarSystem(): void {
+        if (this.mass > 10000) {
+            this.p5.stroke(255)
+            this.p5.strokeWeight(10);
+        }
+        else if (this.mass > 999) {
+            this.p5.stroke(160, 184, 250)
+            this.p5.strokeWeight(4);
+        }
+        else {
+            this.p5.stroke(124, 252, 0)
+            this.p5.strokeWeight(2);
         }
 
         this.p5.point(this.pos.x, this.pos.y)

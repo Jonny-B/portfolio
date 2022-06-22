@@ -63,8 +63,27 @@ export function earthMoonSunOrbit(pfive: p5, window: WindowDimensions, stars: Ar
     stars.push(new Star(x * .50, y * .50, pfive, 100000, [0, 0]));
 
     // earth like planet in orbit
-    stars.push(new Star(x * .50, y * .40, pfive, 100, [.85, 0]));
+    stars.push(new Star(x * .50, y * .30, pfive, 1000, [.85, 0]));
 
-    // earth like planet in orbit
-    // stars.push(new Star(x * .50, y * .40, pfive, 100, [1, 0]));
+    // Moon in orbit
+    stars.push(new Star(x * .51, y * .29, pfive, 1, [1.01, .1]));
+}
+
+export function solarSystem(pfive: p5, window: WindowDimensions, stars: Array<Star>){
+    let x = window.width;
+    let y = window.height;
+
+    console.log(`x: ${x} y: ${y}`)
+    // yellow star in center of window
+    stars.push(new Star(x * .50, y * .50, pfive, 100000, [-.025, 0]));
+
+    // planets in orbit
+    stars.push(new Star(x * .50, y * .15, pfive, 1000, [1.70, 0]));
+    stars.push(new Star(x * .50, y * .20, pfive, 500, [1.60, 0]));
+    stars.push(new Star(x * .50, y * .29, pfive, 100, [1.31, 0]));
+    stars.push(new Star(x * .50, y * .32, pfive, 50, [1.22, 0]));
+    stars.push(new Star(x * .50, y * .35, pfive, 25, [1.12, 0]));
+    stars.push(new Star(x * .50, y * .41, pfive, 10, [.86, 0]));
+    stars.push(new Star(x * .50, y * .45, pfive, 9, [0.99, 0]));
+    stars.push(new Star(x * .50, y * .48, pfive, 8, [1.6, 0]));
 }
