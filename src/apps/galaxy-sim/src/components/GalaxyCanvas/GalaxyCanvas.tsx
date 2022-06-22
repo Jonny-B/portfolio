@@ -35,8 +35,10 @@ const GalaxyCanvas = () => {
 
     const draw = (pfive: P5) => {
         // Redrawing background will remove trails
-        if (!showOrbitTrails) pfive.background(0);
-
+        if (!showOrbitTrails) {
+            // pfive.background(0);
+            pfive.clear()
+        }
         pfive.stroke(255);
         pfive.strokeWeight(4);
         for (let i = 0; i < stars.length; i++) {
@@ -69,7 +71,7 @@ const GalaxyCanvas = () => {
         }
         else if (s === 'Solar System Collision') {
             setGravConst('0.00006674')
-                        setShowOrbitTrails(true);
+            setShowOrbitTrails(true);
         }
     }
 
