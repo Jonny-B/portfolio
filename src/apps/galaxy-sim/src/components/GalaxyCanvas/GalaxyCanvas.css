@@ -4,7 +4,7 @@ body {
 
 body::after {
     content: "";
-    background: url(../../../public/galaxyBackground.jpg) no-repeat center center fixed;
+    background: url(../../../public/galaxyBackground.jpg) center/100% fixed;
     opacity: 0.1;
     top: 0;
     left: 0;
@@ -14,23 +14,62 @@ body::after {
     z-index: -1;
 }
 
+canvas {
+    position: absolute;
+    top: -50%;
+    left: 20%;
+    bottom: 0;
+    right: 0;
+    z-index: -1;
+    padding-top: 25px;
+}
+
 button {
     margin: 8px;
+    background: rgba(178, 190, 181, .05) !important;
+    border: rgba(178, 190, 181, .3) solid 2px !important;
+    color: rgba(178, 190, 181, .8) !important;
+}
+
+input {
+    width: 100% !important;
 }
 
 .galaxy-canvas {
+    position: flex;
+    position: absolute;
     padding: 25px;
 }
 
 .initial-condition-modifier {
-    width: 200px;
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    left: 0px;
-    background-color: darkblue;
-    padding: 15px;
+    position: relative;
+    overflow: hidden;
+    padding: 20px;
+    text-align: left;
+    background: rgba(178, 190, 181, .05);
+    border: rgba(178, 190, 181, .3) solid 2px;
+    border-radius: 5px;
+    width: 250px;
+}
 
+.form-select,
+.form-control {
+    background: rgba(178, 190, 181, .05) !important;
+    border: rgba(178, 190, 181, .3) solid 2px !important;
+    color: rgba(178, 190, 181, .8) !important;
+}
+
+.form-check-input {
+    width: 32px !important;
+}
+
+.form-check-input:checked {
+    background-color: rgba(178, 190, 181, .05) !important;
+    border: rgba(178, 190, 181, .3) solid 2px !important;
+}
+
+.form-label {
+    color: rgba(178, 190, 181, .9) !important;
 }
 
 .initial-condition-modifier label {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Sketch from 'react-p5';
 import { Star } from './Star'
-import { Button, Form } from 'react-bootstrap'
+import { Button, Form, Container, Row, Col } from 'react-bootstrap'
 import helper from './GalaxyCanvas.helper'
 import { InitialScenario, InitialStarType } from '../../types'
 type P5 = import("p5");
@@ -17,8 +17,8 @@ const GalaxyCanvas = () => {
     let [blues, setBlues] = useState<number>(50)
     let [yellows, setYellows] = useState<number>(150)
     let [redDwarfs, setRedDwarfs] = useState<number>(350)
-    let [starFieldX, setStarFieldX] = useState<number>(windowDimensions.width)
-    let [starFieldY, setStarFieldY] = useState<number>(windowDimensions.height)
+    let [starFieldX] = useState<number>(1024)
+    let [starFieldY] = useState<number>(1132)
     let [gravConst, setGravConst] = useState<string>('0.006674')
     let [initialStarTypes, setInitialStarTypes] = useState<InitialStarType>({ blackHoles: 0, blueGiants: 0, blues: 0, yellows: 0, redDwarfs: 0 });
     let [showOrbitTrails, setShowOrbitTrails] = useState(false);
@@ -26,7 +26,6 @@ const GalaxyCanvas = () => {
     const setup = (pfive: P5, parentRef: Element) => {
         pfive.createCanvas(starFieldX, starFieldY).parent(parentRef);
         stars = helper.createStarField(pfive, { width: starFieldX, height: starFieldY }, initialStarTypes, scenario)
-        pfive.background(0);
     };
 
     useEffect(() => {
@@ -71,63 +70,68 @@ const GalaxyCanvas = () => {
         }
         else if (s === 'Solar System Collision') {
             setGravConst('0.00006674')
-            setShowOrbitTrails(true);
         }
     }
 
     return (
-        <div className="galaxy-canvas">
-            <Button size={'sm'} onClick={() => { setShouldDraw(true) }}>Try It</Button>
-            <Button size={'sm'} onClick={handleReset}>Reset</Button>
+        <Container fluid className="galaxy-canvas">
+            <Row>
+                <Col  xxl={0} xl={0} />
+                <Col xxl={12} xl={8}>
+                    <Button size={'sm'} onClick={() => { setShouldDraw(true) }}>Try It</Button>
+                    <Button size={'sm'} onClick={handleReset}>Reset</Button>
+                    <div className={'canvas'} id={'galaxy'}/>
+                    <div className="initial-condition-modifier">
+                        <Form.Label>Scenarios</Form.Label>
+                        <Form.Select size={'sm'} defaultValue={'Random Distribution'} onChange={(e) => { handleScenarioSelect(e) }}>
+                            <option>Simple Orbit</option>
+                            <option>Earth|Moon|Sun Orbit</option>
+                            <option>Solar System</option>
+                            <option>Solar System Collision</option>
+                            <option>Galaxy</option>
+                            <option>Random Distribution</option>
+                        </Form.Select>
+                        {
+                            scenario === 'Random Distribution' ?
+                                <>
+                                    <Form.Label># Stars</Form.Label>
+                                    <Form.Control disabled size={'sm'} type="number" value={750} />
 
-            <div className="initial-condition-modifier">
-                <Form.Label>Scenarios</Form.Label>
-                <Form.Select size={'sm'} defaultValue={'Random Distribution'} onChange={(e) => { handleScenarioSelect(e) }}>
-                    <option>Simple Orbit</option>
-                    <option>Earth|Moon|Sun Orbit</option>
-                    <option>Solar System</option>
-                    <option>Solar System Collision</option>
-                    <option>Galaxy</option>
-                    <option>Random Distribution</option>
-                </Form.Select>
-                {
-                    scenario === 'Random Distribution' ?
-                        <>
-                            <Form.Label># Stars</Form.Label>
-                            <Form.Control disabled size={'sm'} type="number" value={750} />
+                                    <Form.Label>Star # By Type</Form.Label>
+                                    <Form.Label>Black Holes</Form.Label>
+                                    <Form.Control size={'sm'} type="number" defaultValue={1} onChange={(e) => { setBlackHoles(parseInt(e.currentTarget.value)) }} />
+                                    <Form.Label>Blue Giant</Form.Label>
+                                    <Form.Control size={'sm'} type="number" defaultValue={12} onChange={(e) => { setBlueGiants(parseInt(e.currentTarget.value)) }} />
+                                    <Form.Label>Blue</Form.Label>
+                                    <Form.Control size={'sm'} type="number" defaultValue={50} onChange={(e) => { setBlues(parseInt(e.currentTarget.value)) }} />
+                                    <Form.Label>Yellow</Form.Label>
+                                    <Form.Control size={'sm'} type="number" defaultValue={150} onChange={(e) => { setYellows(parseInt(e.currentTarget.value)) }} />
+                                    <Form.Label>Red Dwarf</Form.Label>
+                                    <Form.Control size={'sm'} type="number" defaultValue={350} onChange={(e) => { setRedDwarfs(parseInt(e.currentTarget.value)) }} />
 
-                            <Form.Label>Star # By Type</Form.Label>
-                            <Form.Label>Black Holes</Form.Label>
-                            <Form.Control size={'sm'} type="number" defaultValue={1} onChange={(e) => { setBlackHoles(parseInt(e.currentTarget.value)) }} />
-                            <Form.Label>Blue Giant</Form.Label>
-                            <Form.Control size={'sm'} type="number" defaultValue={12} onChange={(e) => { setBlueGiants(parseInt(e.currentTarget.value)) }} />
-                            <Form.Label>Blue</Form.Label>
-                            <Form.Control size={'sm'} type="number" defaultValue={50} onChange={(e) => { setBlues(parseInt(e.currentTarget.value)) }} />
-                            <Form.Label>Yellow</Form.Label>
-                            <Form.Control size={'sm'} type="number" defaultValue={150} onChange={(e) => { setYellows(parseInt(e.currentTarget.value)) }} />
-                            <Form.Label>Red Dwarf</Form.Label>
-                            <Form.Control size={'sm'} type="number" defaultValue={350} onChange={(e) => { setRedDwarfs(parseInt(e.currentTarget.value)) }} />
+                                </>
+                                :
+                                <></>
+                        }
 
-                        </>
-                        :
-                        <></>
-                }
+                        <Form.Label>Gravitational Constant</Form.Label>
+                        <Form.Control size={'sm'} type="number" value={gravConst} onChange={(e) => { setGravConst(e.currentTarget.value) }} />
 
-                <Form.Label>Gravitational Constant</Form.Label>
-                <Form.Control size={'sm'} type="number" value={gravConst} onChange={(e) => { setGravConst(e.currentTarget.value) }} />
+                        <Form.Label>Show Orbit Lines</Form.Label>
+                        <Form.Check value={"true"} type="switch" checked={showOrbitTrails} onChange={() => { setShowOrbitTrails(!showOrbitTrails) }} />
 
-                <Form.Label>Show Orbit Lines</Form.Label>
-                <Form.Check value={"true"} type="switch" checked={showOrbitTrails} onChange={() => { setShowOrbitTrails(!showOrbitTrails) }} />
-
-                <Form.Label>Stars Field Dimensions</Form.Label>
-                <Form.Control size={'sm'} type="number" placeholder={'x'} defaultValue={windowDimensions.width} onChange={(e) => { setStarFieldX(parseInt(e.currentTarget.value)) }} />
-                <Form.Control size={'sm'} type="number" placeholder={'y'} defaultValue={windowDimensions.height} onChange={(e) => { setStarFieldY(parseInt(e.currentTarget.value)) }} />
+                        <Form.Label>Stars Field Dimensions</Form.Label>
+                        <Form.Control size={'sm'} disabled defaultValue={starFieldX} />
+                        <Form.Control size={'sm'} disabled defaultValue={starFieldY} />
 
 
 
-            </div>
-            {shouldDraw ? <Sketch setup={setup} draw={draw} /> : <></>}
-        </div>
+                    </div>
+                    {shouldDraw ? <Sketch setup={setup} draw={draw} /> : <></>}</Col>
+                <Col  xxl={0} xl={2} />
+            </Row>
+
+        </Container>
     );
 }
 
