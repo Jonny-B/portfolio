@@ -11,7 +11,7 @@ const helper = {
 
         switch (scenario) {
             case 'Random Distribution':
-                randomScenario(pfive, window, types, stars)
+                randomScenario(pfive, types, stars)
                 break;
             case 'Simple Orbit':
                 simpleOrbit(pfive, window, stars)
@@ -29,7 +29,7 @@ const helper = {
                 galaxy(pfive, window, stars)
                 break;
             default:
-                randomScenario(pfive, window, types, stars)
+                randomScenario(pfive, types, stars)
                 break;
         }
         return stars;

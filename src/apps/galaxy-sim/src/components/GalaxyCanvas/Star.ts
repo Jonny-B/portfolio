@@ -37,6 +37,7 @@ export class Star {
                 this.simpleOrbit();
                 break;
             case 'Earth|Moon|Sun Orbit':
+                this.earthMoonSunOrbit();
                 break;
             case 'Solar System':
                 this.solarSystem();

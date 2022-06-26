@@ -14,7 +14,9 @@ body::after {
     z-index: -1;
 }
 
-canvas {
+canvas {}
+
+.galaxy-canvas {
     position: absolute;
     top: -50%;
     left: 20%;
@@ -22,6 +24,29 @@ canvas {
     right: 0;
     z-index: -1;
     padding-top: 25px;
+}
+
+.galaxy-canvas.Simple.Orbit {
+    top: -70%;
+}
+
+.galaxy-canvas.Random.Distribution {
+    top: 10%;
+    left: 30%;
+}
+
+.galaxy-canvas.Solar.System {
+    top: -30%;
+}
+
+.galaxy-canvas.Solar.System.Collision {
+    top: -80%;
+    left: 30%;
+}
+
+.galaxy-canvas.Galaxy {
+    top: -70%;
+    left: 15%;
 }
 
 button {
@@ -35,7 +60,7 @@ input {
     width: 100% !important;
 }
 
-.galaxy-canvas {
+.galaxy-container {
     position: flex;
     position: absolute;
     padding: 25px;

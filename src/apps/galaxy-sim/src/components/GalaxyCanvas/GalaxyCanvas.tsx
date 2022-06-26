@@ -4,6 +4,7 @@ import { Star } from './Star'
 import { Button, Form, Container, Row, Col } from 'react-bootstrap'
 import helper from './GalaxyCanvas.helper'
 import { InitialScenario, InitialStarType } from '../../types'
+import { galaxy } from './GalaxyCanvas.scenarios';
 type P5 = import("p5");
 
 const GalaxyCanvas = () => {
@@ -74,22 +75,22 @@ const GalaxyCanvas = () => {
     }
 
     return (
-        <Container fluid className="galaxy-canvas">
+        <Container fluid className="galaxy-container">
             <Row>
-                <Col  xxl={0} xl={0} />
+                <Col xxl={0} xl={0} />
                 <Col xxl={12} xl={8}>
                     <Button size={'sm'} onClick={() => { setShouldDraw(true) }}>Try It</Button>
                     <Button size={'sm'} onClick={handleReset}>Reset</Button>
-                    <div className={'canvas'} id={'galaxy'}/>
+                    <div className={'canvas'} id={'galaxy'} />
                     <div className="initial-condition-modifier">
                         <Form.Label>Scenarios</Form.Label>
                         <Form.Select size={'sm'} defaultValue={'Random Distribution'} onChange={(e) => { handleScenarioSelect(e) }}>
+                            <option>Random Distribution</option>
                             <option>Simple Orbit</option>
                             <option>Earth|Moon|Sun Orbit</option>
                             <option>Solar System</option>
                             <option>Solar System Collision</option>
                             <option>Galaxy</option>
-                            <option>Random Distribution</option>
                         </Form.Select>
                         {
                             scenario === 'Random Distribution' ?
@@ -124,11 +125,9 @@ const GalaxyCanvas = () => {
                         <Form.Control size={'sm'} disabled defaultValue={starFieldX} />
                         <Form.Control size={'sm'} disabled defaultValue={starFieldY} />
 
-
-
                     </div>
-                    {shouldDraw ? <Sketch setup={setup} draw={draw} /> : <></>}</Col>
-                <Col  xxl={0} xl={2} />
+                    {shouldDraw ? <Sketch setup={setup} draw={draw} className={`galaxy-canvas ${scenario}`}/> : <></>}</Col>
+                <Col xxl={0} xl={2} />
             </Row>
 
         </Container>

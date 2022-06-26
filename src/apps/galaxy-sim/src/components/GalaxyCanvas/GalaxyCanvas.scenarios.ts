@@ -3,11 +3,11 @@ import p5 from 'p5'
 import { Star } from './Star'
 import helper from './GalaxyCanvas.helper'
 
-export function randomScenario(pfive: p5, window: WindowDimensions, types: InitialStarType, stars: Array<Star>) {
-    let xMin = window.width * .25
-    let xMax = window.width * .75
-    let yMin = window.height * .05
-    let yMax = window.height * .75
+export function randomScenario(pfive: p5, types: InitialStarType, stars: Array<Star>) {
+    let xMin = 1
+    let xMax = 500
+    let yMin = 1
+    let yMax = 500
 
     console.log(`xMin: ${xMin} xMax: ${xMax}`)
     console.log(`yMin: ${xMin} yMax: ${xMax}`)
