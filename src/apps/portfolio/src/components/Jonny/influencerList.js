@@ -7,7 +7,7 @@ import williamBlewitt from "./williamBlewitt.jpeg";
 const influencerList = [
     { name: "Bill Blewitt", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", image: billBlewitt },
     { name: "Darby Dennis", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", image: darbyDennis },
-    { name: "William Allan Blewitt II", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", image: williamBlewitt },
+    { name: "William Allan Blewitt", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", image: williamBlewitt },
     { name: "Brian Lees", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", image: brianLees },
     { name: "Leah Blewitt", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", image: leahBlewitt }
 ]

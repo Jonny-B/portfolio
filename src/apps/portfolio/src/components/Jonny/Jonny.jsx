@@ -95,7 +95,7 @@ export default function Jonny() {
         </Card>
 
         <Card id={"influencersJonny"} className={classes.jonnyCard}>
-          <Card.Body>
+          <Card.Body>ityuokljlyli
             <Card.Title>My Influencers</Card.Title>
             <Container>
               <Row>
