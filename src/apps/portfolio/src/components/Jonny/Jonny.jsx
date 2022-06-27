@@ -10,8 +10,9 @@ import {
   Row,
   Button,
 } from "react-bootstrap";
+import influencerList from "./influencerList";
+// import nothingGif from "../../nothing.gif";
 import jonnyFace from "./jonnyFace.png";
-import nothingGif from "../../nothing.gif";
 import starship from "./starship.jpg";
 import galaxy from "./galaxySimClip.jpg";
 
@@ -37,7 +38,7 @@ export default function Jonny() {
           </Navbar.Collapse>
         </Navbar>
 
-        <div style={{ paddingLeft: "200px" }}>
+        <div className={classes.topImage}>
           <Image src={jonnyFace} />
         </div>
 
@@ -62,26 +63,34 @@ export default function Jonny() {
         <Card id={"portfolioJonny"} className={classes.jonnyCard}>
           <Card.Body>
             <Card.Title>Portfolio</Card.Title>
-            <Card id={"portfolioStarship"} className={classes.portfolioCard}>
-              <a href={"https://codepen.io/jonny-b/pen/zYwwZBq"}>
-                <Card.Body>
-                  <Card.Img className={classes.portfolioImage} variant="top" src={starship} />
-                  <Card.Title>Starship - HTML/JSS/CSS</Card.Title>
-                  <Card.Text>
-                    I'm a big fan of SpaceX so I decided to build a simple little project of mixed Javascript and CSS animations of a Starship lunch.
-                  </Card.Text>
-                </Card.Body>
-              </a>
-              <a href={"http://localhost:9000/galaxy-sim/"}>
-                <Card.Body>
-                  <Card.Img className={classes.portfolioImage} variant="top" src={galaxy} />
-                  <Card.Title>Galaxy Sim - React/Typescript</Card.Title>
-                  <Card.Text>
-                    Another space themed project. Here I attempt to simulate the phycisc of stars within a galaxy.
-                  </Card.Text>
-                </Card.Body>
-              </a>
-            </Card>
+            <Row>
+              <Col>
+                <Card id={"portfolioStarship"} className={classes.portfolioCard}>
+                  <a href={"https://codepen.io/jonny-b/pen/zYwwZBq"}>
+                    <Card.Body>
+                      <Card.Img className={classes.portfolioImage} variant="top" src={starship} />
+                      <Card.Title>Starship - HTML/JSS/CSS</Card.Title>
+                      <Card.Text>
+                        I'm a fan of SpaceX so I built a simple little project mixing Javascript and CSS animations of a Starship launch.
+                      </Card.Text>
+                    </Card.Body>
+                  </a>
+                </Card>
+              </Col>
+              <Col>
+                <Card id={"portfolioGalaxySim"} className={classes.portfolioCard}>
+                  <a href={"http://theblewitts.online/galaxy-sim/"}>
+                    <Card.Body>
+                      <Card.Img className={classes.portfolioImage} variant="top" src={galaxy} />
+                      <Card.Title>Galaxy Sim - React/Typescript</Card.Title>
+                      <Card.Text>
+                        Another space themed project. Here I attempt to simulate the phycisc of stars within a galaxy.
+                      </Card.Text>
+                    </Card.Body>
+                  </a>
+                </Card>
+              </Col>
+            </Row>
           </Card.Body>
         </Card>
 
@@ -90,115 +99,20 @@ export default function Jonny() {
             <Card.Title>My Influencers</Card.Title>
             <Container>
               <Row>
-                <Col>
-                  <Card style={{ width: "18rem" }}>
-                    <Card.Img variant="top" src={nothingGif} />
-                    <Card.Body>
-                      <Card.Title>Bill Blewitt</Card.Title>
-                      <Card.Text>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua. Ut enim ad minim veniam, quis nostrud
-                        exercitation ullamco laboris nisi ut aliquip ex ea
-                        commodo consequat.
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
-                </Col>
-                <Col>
-                  <Card style={{ width: "18rem" }}>
-                    <Card.Img variant="top" src={nothingGif} />
-                    <Card.Body>
-                      <Card.Title>Leah Blewitt</Card.Title>
-                      <Card.Text>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua. Ut enim ad minim veniam, quis nostrud
-                        exercitation ullamco laboris nisi ut aliquip ex ea
-                        commodo consequat.
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
-                </Col>
-                <Col>
-                  <Card style={{ width: "18rem" }}>
-                    <Card.Img variant="top" src={nothingGif} />
-                    <Card.Body>
-                      <Card.Title>William A. Blewitt II</Card.Title>
-                      <Card.Text>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua. Ut enim ad minim veniam, quis nostrud
-                        exercitation ullamco laboris nisi ut aliquip ex ea
-                        commodo consequat.
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <Card style={{ width: "18rem" }}>
-                    <Card.Img variant="top" src={nothingGif} />
-                    <Card.Body>
-                      <Card.Title>Brian Lees</Card.Title>
-                      <Card.Text>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua. Ut enim ad minim veniam, quis nostrud
-                        exercitation ullamco laboris nisi ut aliquip ex ea
-                        commodo consequat.
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
-                </Col>
-                <Col>
-                  <Card style={{ width: "18rem" }}>
-                    <Card.Img variant="top" src={nothingGif} />
-                    <Card.Body>
-                      <Card.Title>Darby Dennis</Card.Title>
-                      <Card.Text>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua. Ut enim ad minim veniam, quis nostrud
-                        exercitation ullamco laboris nisi ut aliquip ex ea
-                        commodo consequat.
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
-                </Col>
-                <Col>
-                  <Card style={{ width: "18rem" }}>
-                    <Card.Img variant="top" src={nothingGif} />
-                    <Card.Body>
-                      <Card.Title>Donavan Stanley</Card.Title>
-                      <Card.Text>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua. Ut enim ad minim veniam, quis nostrud
-                        exercitation ullamco laboris nisi ut aliquip ex ea
-                        commodo consequat.
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <Card style={{ width: "18rem" }}>
-                    <Card.Img variant="top" src={nothingGif} />
-                    <Card.Body>
-                      <Card.Title>Bill Blewitt</Card.Title>
-                      <Card.Text>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua. Ut enim ad minim veniam, quis nostrud
-                        exercitation ullamco laboris nisi ut aliquip ex ea
-                        commodo consequat.
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
-                </Col>
+                {influencerList.map((influencer) => {
+                  return <Col>
+                    <Card className={"influencerCard"}>
+                      <Card.Img variant="top" src={influencer.image} />
+                      <Card.Body>
+                        <Card.Title>{influencer.name}</Card.Title>
+                        <Card.Text >
+                          {influencer.description}
+                        </Card.Text>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                })}
+
               </Row>
             </Container>
           </Card.Body>
@@ -210,8 +124,8 @@ export default function Jonny() {
             <Button>Download</Button>
           </Card.Body>
         </Card>
-      </Container>
-    </span>
+      </Container >
+    </span >
   );
 }
 
@@ -228,16 +142,25 @@ const useStyles = createUseStyles({
     marginBottom: "50px",
     width: "100%",
   },
+  topImage: {
+    width: "100%",
+    textAlign: "center"
+  },
   navDivider: {
     margin: "11px 5px 0 5px",
     height: "20px",
     border: "rgba(255,255,255,.55) solid 1px",
   },
   portfolioCard: {
-    width: '500px'
+    width: '500px',
   },
   portfolioImage: {
     borderRadius: '3%',
-    width: '100%'
+    width: '460px',
+    height: '300px'
+  },
+  influencerCard: {
+    width: "18rem",
+    margin: "8px"
   }
 });
