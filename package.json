@@ -10,7 +10,7 @@
     "nodemon": "^2.0.16"
   },
   "scripts": {
-    "start": "node src/backend/bin/www",
+    "start": "yarn build-all node src/backend/bin/www",
     "dev": "nodemon src/backend/bin/www",
     "build-all": "node ./scripts/build-all.js"
   }
