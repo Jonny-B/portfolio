@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/galaxy-sim/static/css/main.7869aea0.css",
+    "main.js": "/galaxy-sim/static/js/main.7d318066.js",
+    "static/media/galaxyBackground.jpg": "/galaxy-sim/static/media/galaxyBackground.e29affe02d712688223b.jpg",
+    "index.html": "/galaxy-sim/index.html",
+    "main.7869aea0.css.map": "/galaxy-sim/static/css/main.7869aea0.css.map",
+    "main.7d318066.js.map": "/galaxy-sim/static/js/main.7d318066.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.7869aea0.css",
+    "static/js/main.7d318066.js"
+  ]
+}
