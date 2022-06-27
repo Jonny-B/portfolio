@@ -79,7 +79,7 @@ export default function Jonny() {
               </Col>
               <Col>
                 <Card id={"portfolioGalaxySim"} className={classes.portfolioCard}>
-                  <a href={"http://theblewitts.online/galaxy-sim/"}>
+                  <a href={"/galaxy-sim/"}>
                     <Card.Body>
                       <Card.Img className={classes.portfolioImage} variant="top" src={galaxy} />
                       <Card.Title>Galaxy Sim - React/Typescript</Card.Title>
