@@ -12,6 +12,6 @@
   "scripts": {
     "start": "yarn build-all node src/backend/bin/www",
     "dev": "nodemon src/backend/bin/www",
-    "build-all": "node --optimize_for_size --max_old_space_size=2560  ./scripts/build-all.js"
+    "build-all": "node --optimize_for_size --max_old_space_size=2560 ./scripts/build-all.js"
   }
 }
