@@ -68,9 +68,14 @@ const GalaxyCanvas = () => {
         }
         else if (s === 'Earth|Moon|Sun Orbit' || s === 'Galaxy') {
             setGravConst('0.0006674')
+            setShowOrbitTrails(false);
         }
         else if (s === 'Solar System Collision') {
             setGravConst('0.00006674')
+            setShowOrbitTrails(false);
+        }
+        else {
+            setShowOrbitTrails(false);
         }
     }
 
@@ -126,7 +131,7 @@ const GalaxyCanvas = () => {
                         <Form.Control size={'sm'} disabled defaultValue={starFieldY} />
 
                     </div>
-                    {shouldDraw ? <Sketch setup={setup} draw={draw} className={`galaxy-canvas ${scenario}`}/> : <></>}</Col>
+                    {shouldDraw ? <Sketch setup={setup} draw={draw} className={`galaxy-canvas ${scenario}`} /> : <></>}</Col>
                 <Col xxl={0} xl={2} />
             </Row>
 

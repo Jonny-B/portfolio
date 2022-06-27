@@ -31,8 +31,8 @@ canvas {}
 }
 
 .galaxy-canvas.Random.Distribution {
-    top: 10%;
-    left: 30%;
+    top: -10%;
+    left: 15%;
 }
 
 .galaxy-canvas.Solar.System {
