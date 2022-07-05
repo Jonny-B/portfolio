@@ -95,19 +95,30 @@ export function solarSystemCollision(pfive: p5, window: WindowDimensions, stars:
     let y = window.height;
 
     console.log(`x: ${x} y: ${y}`)
-    // yellow star
-    stars.push(new Star(x * .25, y * .50, pfive, 5000, [0, 0]));
+
+            // yellow star
+    stars.push(new Star(x * .05, y * .50, pfive, 5000, [0, .03]));
 
     // planets in orbit
+    stars.push(new Star(x * .05, y * .467, pfive, 25, [.095, 0]));
+    stars.push(new Star(x * .05, y * .475, pfive, 10, [.110, 0]));
+    stars.push(new Star(x * .05, y * .480, pfive, 10, [.122, 0]));
+    stars.push(new Star(x * .05, y * .485, pfive, 9, [.13, 0]));
+    stars.push(new Star(x * .05, y * .495, pfive, 8, [.21, 0]));
+    
+    // yellow star
+    stars.push(new Star(x * .25, y * .50, pfive, 5000, [-.01, 0]));
 
+    // planets in orbit
     stars.push(new Star(x * .25, y * .467, pfive, 25, [.095, 0]));
     stars.push(new Star(x * .25, y * .475, pfive, 10, [.110, 0]));
     stars.push(new Star(x * .25, y * .480, pfive, 10, [.122, 0]));
     stars.push(new Star(x * .25, y * .485, pfive, 9, [.13, 0]));
     stars.push(new Star(x * .25, y * .495, pfive, 8, [.21, 0]));
 
+    
     // yellow star
-    stars.push(new Star(x * .45, y * .50, pfive, 5000, [0, -.01]));
+    stars.push(new Star(x * .45, y * .50, pfive, 5000, [-.01, 0]));
 
     // planets in orbit
     stars.push(new Star(x * .45, y * .467, pfive, 25, [.095, 0]));
@@ -115,6 +126,18 @@ export function solarSystemCollision(pfive: p5, window: WindowDimensions, stars:
     stars.push(new Star(x * .45, y * .480, pfive, 10, [.122, 0]));
     stars.push(new Star(x * .45, y * .485, pfive, 9, [.13, 0]));
     stars.push(new Star(x * .45, y * .495, pfive, 8, [.21, 0]));
+
+    // yellow star
+    stars.push(new Star(x * .65, y * .50, pfive, 5000, [0, -.03]));
+
+    // planets in orbit
+    stars.push(new Star(x * .65, y * .467, pfive, 25, [.095, 0]));
+    stars.push(new Star(x * .65, y * .475, pfive, 10, [.110, 0]));
+    stars.push(new Star(x * .65, y * .480, pfive, 10, [.122, 0]));
+    stars.push(new Star(x * .65, y * .485, pfive, 9, [.13, 0]));
+    stars.push(new Star(x * .65, y * .495, pfive, 8, [.21, 0]));
+
+
 
 }
 

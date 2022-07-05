@@ -35,14 +35,23 @@ const helper = {
         return stars;
     },
     calcAttractionForces: (target1: Star, target2: Star, pfive: p5, gravConst: string): void => {
+        
+        // Calculate Distance between targets
         var force = p5.Vector.sub(target2.pos, target1.pos);
+
+        // Calculate Distance Squared
         var dsquared = force.magSq();
+
+        // Constrain distance squared
         dsquared = pfive.constrain(dsquared, 5, 9999);
+
+        // Calculate Force of Gravity Equation and set to force vector
         var G = parseFloat(gravConst);
         var m1 = target1.mass;
         var m2 = target2.mass;
-        var magnitue = G * ((m1 * m2) / dsquared);
-        force.setMag(magnitue);
+        force.setMag(G * ((m1 * m2) / dsquared));
+
+        // F / M = Acceleration
         target1.acc.add(p5.Vector.div(force, target1.mass));
         target2.acc.add(p5.Vector.div(force, -target2.mass));
 
