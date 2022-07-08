@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Sketch from 'react-p5';
+import { GPU } from 'gpu.js';
 import { Star } from './Star'
 import { Button, Form, Container, Row, Col } from 'react-bootstrap'
 import helper from './GalaxyCanvas.helper'
@@ -23,9 +24,11 @@ const GalaxyCanvas = () => {
     let [gravConst, setGravConst] = useState<string>('0.006674')
     let [initialStarTypes, setInitialStarTypes] = useState<InitialStarType>({ blackHoles: 0, blueGiants: 0, blues: 0, yellows: 0, redDwarfs: 0 });
     let [showOrbitTrails, setShowOrbitTrails] = useState(false);
+    const gpu = new GPU();
+
 
     const setup = (pfive: P5, parentRef: Element) => {
-        pfive.createCanvas(starFieldX, starFieldY).parent(parentRef);
+        pfive.createCanvas(starFieldX, starFieldY, pfive.WEBGL).parent(parentRef);
         stars = helper.createStarField(pfive, { width: starFieldX, height: starFieldY }, initialStarTypes, scenario)
     };
 
@@ -41,17 +44,38 @@ const GalaxyCanvas = () => {
         }
         pfive.stroke(255);
         pfive.strokeWeight(4);
-        for (let i = 0; i < stars.length; i++) {
+
+        for (let i = 0; i < stars.length - 1; i++) {
             stars[i].show(scenario);
             stars[i].update()
         }
-        for (let i = 0; i < stars.length - 1; i++) {
-            for (let j = 0 + i; j < stars.length; j++) {
-                // We don't want to calculate the same star against itself
-                if (i === j) continue;
-                helper.calcAttractionForces(stars[i], stars[j], pfive, gravConst);
-            }
+
+        // if (true) {
+        //     const matMult = gpu.createKernel(function (stars) {
+        //         for (let i = 0; i < stars.length - 1; i++) {
+        //             for (let j = 0 + i; j < stars.length; j++) {
+        //                 helper.calcAttractionForces(stars[i], stars[j], pfive, gravConst);
+        //             }
+        //         }
+        //     }, {
+        //         constants: { size: stars.length },
+        //         output: [512, 512],
+        //     });
+
+        //     matMult(stars)
+        // }
+        // else {
+            for (let i = 0; i < stars.length - 1; i++) {
+                stars[i].show(scenario);
+                stars[i].update()
+                for (let j = 0 + i; j < stars.length; j++) {
+                    // We don't want to calculate the same star against itself
+                    helper.calcAttractionForces(stars[i], stars[j], pfive, gravConst);
+                }
+            // }
         }
+
+
     };
 
     function handleReset() {
