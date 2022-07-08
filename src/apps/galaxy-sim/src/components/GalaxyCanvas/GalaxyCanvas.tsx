@@ -5,10 +5,12 @@ import { Button, Form, Container, Row, Col } from 'react-bootstrap'
 import helper from './GalaxyCanvas.helper'
 import { InitialScenario, InitialStarType } from '../../types'
 import { galaxy } from './GalaxyCanvas.scenarios';
+
 type P5 = import("p5");
 
 const GalaxyCanvas = () => {
     let stars: Array<Star> = [];
+    let p5: P5;
 
     let [windowDimensions, setWindowDimensions] = useState(helper.getWindowDimensions(window))
     let [scenario, setScenario] = useState<InitialScenario>('Random Distribution')
@@ -23,8 +25,9 @@ const GalaxyCanvas = () => {
     let [gravConst, setGravConst] = useState<string>('0.006674')
     let [initialStarTypes, setInitialStarTypes] = useState<InitialStarType>({ blackHoles: 0, blueGiants: 0, blues: 0, yellows: 0, redDwarfs: 0 });
     let [showOrbitTrails, setShowOrbitTrails] = useState(false);
-
+    let [interactiveMode, setInteractiveMode] = useState(false);
     const setup = (pfive: P5, parentRef: Element) => {
+        p5 = pfive;
         pfive.createCanvas(starFieldX, starFieldY).parent(parentRef);
         stars = helper.createStarField(pfive, { width: starFieldX, height: starFieldY }, initialStarTypes, scenario)
     };
@@ -79,6 +82,14 @@ const GalaxyCanvas = () => {
         }
     }
 
+    function mouseClick(e: any) {
+        if (interactiveMode) {
+            let newStar = new Star(e.mouseX, e.mouseY, p5, 100)
+            stars.push(newStar);
+            console.log('New Star Added')
+        }
+    }
+
     return (
         <Container fluid className="galaxy-container">
             <Row>
@@ -126,12 +137,15 @@ const GalaxyCanvas = () => {
                         <Form.Label>Show Orbit Lines</Form.Label>
                         <Form.Check value={"true"} type="switch" checked={showOrbitTrails} onChange={() => { setShowOrbitTrails(!showOrbitTrails) }} />
 
+                        <Form.Label>Interactive Mode</Form.Label>
+                        <Form.Check value={"false"} type="switch" checked={interactiveMode} onChange={() => { setInteractiveMode(!interactiveMode) }} />
+
                         <Form.Label>Stars Field Dimensions</Form.Label>
                         <Form.Control size={'sm'} disabled defaultValue={starFieldX} />
                         <Form.Control size={'sm'} disabled defaultValue={starFieldY} />
 
                     </div>
-                    {shouldDraw ? <Sketch setup={setup} draw={draw} className={`galaxy-canvas ${scenario}`} /> : <></>}</Col>
+                    {shouldDraw ? <Sketch setup={setup} draw={draw} mouseClicked={mouseClick} className={`galaxy-canvas ${scenario}`} /> : <></>}</Col>
                 <Col xxl={0} xl={2} />
             </Row>
 
