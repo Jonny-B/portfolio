@@ -26,7 +26,7 @@ function NavBar() {
                         </NavDropdown>
                     </Nav>
                     <Nav>
-                        <Nav.Link eventKey={2} href="http://www.theblewitts.online/#jonny">
+                        <Nav.Link eventKey={2} href="https://www.theblewitts.online/#jonny">
                             About Me
                         </Nav.Link>
                     </Nav>
