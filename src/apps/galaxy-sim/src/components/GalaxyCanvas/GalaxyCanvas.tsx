@@ -4,7 +4,6 @@ import { Star } from './Star'
 import { Button, Form, Container, Row, Col } from 'react-bootstrap'
 import helper from './GalaxyCanvas.helper'
 import { InitialScenario, InitialStarType } from '../../types'
-import { galaxy } from './GalaxyCanvas.scenarios';
 
 type P5 = import("p5");
 
