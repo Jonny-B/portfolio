@@ -5,10 +5,15 @@ import { Button, Form, Container, Row, Col } from 'react-bootstrap'
 import helper from './GalaxyCanvas.helper'
 import { InitialScenario, InitialStarType } from '../../types'
 import { galaxy } from './GalaxyCanvas.scenarios';
+
 type P5 = import("p5");
 
 const GalaxyCanvas = () => {
     let stars: Array<Star> = [];
+    let p5: P5;
+    let canvas: any;
+    let mousePressXCoords: number = 0;
+    let mousePressYCoords: number = 0;
 
     let [windowDimensions, setWindowDimensions] = useState(helper.getWindowDimensions(window))
     let [scenario, setScenario] = useState<InitialScenario>('Random Distribution')
@@ -23,9 +28,12 @@ const GalaxyCanvas = () => {
     let [gravConst, setGravConst] = useState<string>('0.006674')
     let [initialStarTypes, setInitialStarTypes] = useState<InitialStarType>({ blackHoles: 0, blueGiants: 0, blues: 0, yellows: 0, redDwarfs: 0 });
     let [showOrbitTrails, setShowOrbitTrails] = useState(false);
+    let [interactiveMode, setInteractiveMode] = useState(false);
+    let [interactiveStarMass, setInteractiveStarMass] = useState(1000);
 
     const setup = (pfive: P5, parentRef: Element) => {
-        pfive.createCanvas(starFieldX, starFieldY).parent(parentRef);
+        p5 = pfive;
+        canvas = pfive.createCanvas(starFieldX, starFieldY).parent(parentRef);
         stars = helper.createStarField(pfive, { width: starFieldX, height: starFieldY }, initialStarTypes, scenario)
     };
 
@@ -79,6 +87,51 @@ const GalaxyCanvas = () => {
         }
     }
 
+    function mousePress(e: any) {
+        if (canvas) {
+            let xCoords = [0, 0];
+            let yCoords = [0, 0];
+            let position = canvas.position()
+            let height = canvas.height
+            let width = canvas.width
+            xCoords = [position.x, position.x + width]
+            yCoords = [position.y, position.y + height]
+
+            let clickInsideCanvas = (e.mouseX >= xCoords[0] && e.mouseX <= xCoords[1]) && (e.mouseY >= yCoords[0] && e.mouseY <= yCoords[1])
+
+            if (interactiveMode && clickInsideCanvas) {
+                mousePressXCoords = e.mouseX;
+                mousePressYCoords = e.mouseY;
+            }
+        }
+        return false;
+    }
+
+    function mouseRelease(e: any) {
+        if (canvas) {
+            let xCoords = [0, 0];
+            let yCoords = [0, 0];
+            let position = canvas.position()
+            let height = canvas.height
+            let width = canvas.width
+            xCoords = [position.x, position.x + width]
+            yCoords = [position.y, position.y + height]
+
+            let clickInsideCanvas = (e.mouseX >= xCoords[0] && e.mouseX <= xCoords[1]) && (e.mouseY >= yCoords[0] && e.mouseY <= yCoords[1])
+
+            if (interactiveMode && clickInsideCanvas) {
+                let velX = (e.mouseX - mousePressXCoords) / 100
+                let velY = (e.mouseY - mousePressYCoords) / 100
+                console.log(`[${velX},  ${velY}]`)
+                // Need to contain the click to only inside the canvas
+                let newStar = new Star(e.mouseX, e.mouseY, p5, interactiveStarMass, [velX, velY])
+                stars.push(newStar);
+            }
+        }
+        return false;
+
+    }
+
     return (
         <Container fluid className="galaxy-container">
             <Row>
@@ -101,7 +154,7 @@ const GalaxyCanvas = () => {
                             scenario === 'Random Distribution' ?
                                 <>
                                     <Form.Label># Stars</Form.Label>
-                                    <Form.Control disabled size={'sm'} type="number" value={750} />
+                                    {/* <Form.Control disabled size={'sm'} type="number" value={750} /> */}
 
                                     <Form.Label>Star # By Type</Form.Label>
                                     <Form.Label>Black Holes</Form.Label>
@@ -126,12 +179,20 @@ const GalaxyCanvas = () => {
                         <Form.Label>Show Orbit Lines</Form.Label>
                         <Form.Check value={"true"} type="switch" checked={showOrbitTrails} onChange={() => { setShowOrbitTrails(!showOrbitTrails) }} />
 
+                        <Form.Label>Interactive Mode</Form.Label>
+                        <Form.Check value={"false"} type="switch" checked={interactiveMode} onChange={() => { setInteractiveMode(!interactiveMode) }} />
+                        {interactiveMode ? <div>
+                            <Form.Label>Star Mass</Form.Label>
+                            <Form.Control defaultValue={interactiveStarMass} type="number" onChange={(e) => setInteractiveStarMass(parseInt(e.target.value))} />
+
+
+                        </div> : <></>}
                         <Form.Label>Stars Field Dimensions</Form.Label>
-                        <Form.Control size={'sm'} disabled defaultValue={starFieldX} />
-                        <Form.Control size={'sm'} disabled defaultValue={starFieldY} />
+                        <div>{starFieldX}</div>
+                        <div>{starFieldY}</div>
 
                     </div>
-                    {shouldDraw ? <Sketch setup={setup} draw={draw} className={`galaxy-canvas ${scenario}`} /> : <></>}</Col>
+                    {shouldDraw ? <Sketch setup={setup} draw={draw} mousePressed={mousePress} mouseReleased={mouseRelease} className={`galaxy-canvas ${scenario}`} /> : <></>}</Col>
                 <Col xxl={0} xl={2} />
             </Row>
 
