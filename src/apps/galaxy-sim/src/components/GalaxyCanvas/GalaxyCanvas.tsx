@@ -12,6 +12,8 @@ const GalaxyCanvas = () => {
     let stars: Array<Star> = [];
     let p5: P5;
     let canvas: any;
+    let mousePressXCoords: number = 0;
+    let mousePressYCoords: number = 0;
 
     let [windowDimensions, setWindowDimensions] = useState(helper.getWindowDimensions(window))
     let [scenario, setScenario] = useState<InitialScenario>('Random Distribution')
@@ -85,7 +87,7 @@ const GalaxyCanvas = () => {
         }
     }
 
-    function mouseClick(e: any) {
+    function mousePress(e: any) {
         if (canvas) {
             let xCoords = [0, 0];
             let yCoords = [0, 0];
@@ -98,10 +100,32 @@ const GalaxyCanvas = () => {
             let clickInsideCanvas = (e.mouseX >= xCoords[0] && e.mouseX <= xCoords[1]) && (e.mouseY >= yCoords[0] && e.mouseY <= yCoords[1])
 
             if (interactiveMode && clickInsideCanvas) {
+                mousePressXCoords = e.mouseX;
+                mousePressYCoords = e.mouseY;
+            }
+        }
+        return false;
+    }
+
+    function mouseRelease(e: any) {
+        if (canvas) {
+            let xCoords = [0, 0];
+            let yCoords = [0, 0];
+            let position = canvas.position()
+            let height = canvas.height
+            let width = canvas.width
+            xCoords = [position.x, position.x + width]
+            yCoords = [position.y, position.y + height]
+
+            let clickInsideCanvas = (e.mouseX >= xCoords[0] && e.mouseX <= xCoords[1]) && (e.mouseY >= yCoords[0] && e.mouseY <= yCoords[1])
+
+            if (interactiveMode && clickInsideCanvas) {
+                let velX = (e.mouseX - mousePressXCoords) / 100
+                let velY = (e.mouseY - mousePressYCoords) / 100
+                console.log(`[${velX},  ${velY}]`)
                 // Need to contain the click to only inside the canvas
-                let newStar = new Star(e.mouseX, e.mouseY, p5, interactiveStarMass, [.3, 0])
+                let newStar = new Star(e.mouseX, e.mouseY, p5, interactiveStarMass, [velX, velY])
                 stars.push(newStar);
-                console.log('New Star Added')
             }
         }
         return false;
@@ -168,7 +192,7 @@ const GalaxyCanvas = () => {
                         <div>{starFieldY}</div>
 
                     </div>
-                    {shouldDraw ? <Sketch setup={setup} draw={draw} mouseClicked={mouseClick} className={`galaxy-canvas ${scenario}`} /> : <></>}</Col>
+                    {shouldDraw ? <Sketch setup={setup} draw={draw} mousePressed={mousePress} mouseReleased={mouseRelease} className={`galaxy-canvas ${scenario}`} /> : <></>}</Col>
                 <Col xxl={0} xl={2} />
             </Row>
 
