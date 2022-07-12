@@ -8,7 +8,7 @@ import { InitialScenario, InitialStarType } from '../../types'
 type P5 = import("p5");
 
 const GalaxyCanvas = () => {
-    let stars: Array<Star> = [];
+    // let stars: Array<Star> = [];
     let p5: P5;
     let canvas: any;
     let mousePressXCoords: number = 0;
@@ -29,11 +29,12 @@ const GalaxyCanvas = () => {
     let [showOrbitTrails, setShowOrbitTrails] = useState(false);
     let [interactiveMode, setInteractiveMode] = useState(false);
     let [interactiveStarMass, setInteractiveStarMass] = useState(1000);
+    let [stars, setStars] = useState<Array<Star>>([])
 
     const setup = (pfive: P5, parentRef: Element) => {
         p5 = pfive;
         canvas = pfive.createCanvas(starFieldX, starFieldY).parent(parentRef);
-        stars = helper.createStarField(pfive, { width: starFieldX, height: starFieldY }, initialStarTypes, scenario)
+        setStars(helper.createStarField(pfive, { width: starFieldX, height: starFieldY }, initialStarTypes, scenario))
     };
 
     useEffect(() => {
@@ -42,6 +43,7 @@ const GalaxyCanvas = () => {
 
     const draw = (pfive: P5) => {
         // Redrawing background will remove trails
+        p5 = pfive;
         if (!showOrbitTrails) {
             // pfive.background(0);
             pfive.clear()
@@ -87,12 +89,12 @@ const GalaxyCanvas = () => {
     }
 
     function mousePress(e: any) {
-        if (canvas) {
+        if (e.canvas) {
             let xCoords = [0, 0];
             let yCoords = [0, 0];
-            let position = canvas.position()
-            let height = canvas.height
-            let width = canvas.width
+            let position = e.canvas.getBoundingClientRect()
+            let height = e.canvas.height
+            let width = e.canvas.width
             xCoords = [position.x, position.x + width]
             yCoords = [position.y, position.y + height]
 
@@ -107,12 +109,12 @@ const GalaxyCanvas = () => {
     }
 
     function mouseRelease(e: any) {
-        if (canvas) {
+        if (e.canvas) {
             let xCoords = [0, 0];
             let yCoords = [0, 0];
-            let position = canvas.position()
-            let height = canvas.height
-            let width = canvas.width
+            let position = e.canvas.getBoundingClientRect()
+            let height = e.canvas.height
+            let width = e.canvas.width
             xCoords = [position.x, position.x + width]
             yCoords = [position.y, position.y + height]
 
@@ -125,6 +127,7 @@ const GalaxyCanvas = () => {
                 // Need to contain the click to only inside the canvas
                 let newStar = new Star(e.mouseX, e.mouseY, p5, interactiveStarMass, [velX, velY])
                 stars.push(newStar);
+                setStars(stars);
             }
         }
         return false;
