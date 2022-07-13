@@ -72,8 +72,12 @@ const GalaxyCanvas = () => {
             setGravConst('0.0006674')
             setShowOrbitTrails(true);
         }
-        else if (s === 'Earth|Moon|Sun Orbit' || s === 'Galaxy') {
+        else if (s === 'Earth|Moon|Sun Orbit') {
             setGravConst('0.0006674')
+            setShowOrbitTrails(false);
+        }
+        else if (s === 'Galaxy') {
+            setGravConst('0.0002674')
             setShowOrbitTrails(false);
         }
         else if (s === 'Solar System Collision') {

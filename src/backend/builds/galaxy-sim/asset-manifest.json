@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/galaxy-sim/static/css/main.428d6cd8.css",
-    "main.js": "/galaxy-sim/static/js/main.cec9e1b7.js",
+    "main.css": "/galaxy-sim/static/css/main.b5539810.css",
+    "main.js": "/galaxy-sim/static/js/main.20e9e467.js",
     "static/media/galaxyBackground.jpg": "/galaxy-sim/static/media/galaxyBackground.e29affe02d712688223b.jpg",
     "index.html": "/galaxy-sim/index.html",
-    "main.428d6cd8.css.map": "/galaxy-sim/static/css/main.428d6cd8.css.map",
-    "main.cec9e1b7.js.map": "/galaxy-sim/static/js/main.cec9e1b7.js.map"
+    "main.b5539810.css.map": "/galaxy-sim/static/css/main.b5539810.css.map",
+    "main.20e9e467.js.map": "/galaxy-sim/static/js/main.20e9e467.js.map"
   },
   "entrypoints": [
-    "static/css/main.428d6cd8.css",
-    "static/js/main.cec9e1b7.js"
+    "static/css/main.b5539810.css",
+    "static/js/main.20e9e467.js"
   ]
 }
