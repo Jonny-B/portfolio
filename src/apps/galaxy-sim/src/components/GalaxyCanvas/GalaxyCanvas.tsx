@@ -1,4 +1,4 @@
-import React, { SetStateAction, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Sketch from 'react-p5';
 import { Star } from './Star'
 import { Button, Form, Container, Row, Col } from 'react-bootstrap'
@@ -8,13 +8,10 @@ import { InitialScenario, InitialStarType } from '../../types'
 type P5 = import("p5");
 
 const GalaxyCanvas = () => {
-    // let stars: Array<Star> = [];
     let p5: P5;
-    // let canvas: any;
     let mousePressXCoords: number = 0;
     let mousePressYCoords: number = 0;
 
-    let [windowDimensions, setWindowDimensions] = useState(helper.getWindowDimensions(window))
     let [scenario, setScenario] = useState<InitialScenario>('Simple Orbit')
     let [shouldDraw, setShouldDraw] = useState<boolean>(false)
     let [blackHoles, setBlackHoles] = useState<number>(1)
@@ -66,7 +63,6 @@ const GalaxyCanvas = () => {
 
     function handleReset() {
         setShouldDraw(false)
-        setWindowDimensions(helper.getWindowDimensions(window))
     }
 
     function handleScenarioSelect(e: React.ChangeEvent<HTMLSelectElement>) {
@@ -139,9 +135,9 @@ const GalaxyCanvas = () => {
             <Row>
                 <Col xxl={0} xl={0} />
                 <Col xxl={12} xl={8}>
-                    <Button size={'sm'} onClick={() => { setShouldDraw(true) }}>Try It</Button>
-                    <Button size={'sm'} onClick={handleReset}>Reset</Button>
                     <div className="initial-condition-modifier">
+                        <Button size={'sm'} onClick={() => { setShouldDraw(true) }}>Try It</Button>
+                        <Button size={'sm'} onClick={handleReset}>Reset</Button>
                         <Form.Label>Scenarios</Form.Label>
                         <Form.Select size={'sm'} defaultValue={'Simple Orbit'} onChange={(e) => { handleScenarioSelect(e) }}>
                             <option>Random Distribution</option>
