@@ -15,7 +15,7 @@ const GalaxyCanvas = () => {
     let mousePressYCoords: number = 0;
 
     let [windowDimensions, setWindowDimensions] = useState(helper.getWindowDimensions(window))
-    let [scenario, setScenario] = useState<InitialScenario>('Random Distribution')
+    let [scenario, setScenario] = useState<InitialScenario>('Simple Orbit')
     let [shouldDraw, setShouldDraw] = useState<boolean>(false)
     let [blackHoles, setBlackHoles] = useState<number>(1)
     let [blueGiants, setBlueGiants] = useState<number>(12)
@@ -24,7 +24,7 @@ const GalaxyCanvas = () => {
     let [redDwarfs, setRedDwarfs] = useState<number>(350)
     let [starFieldX] = useState<number>(1024)
     let [starFieldY] = useState<number>(1132)
-    let [gravConst, setGravConst] = useState<string>('0.006674')
+    let [gravConst, setGravConst] = useState<string>('0.0006674')
     let [initialStarTypes, setInitialStarTypes] = useState<InitialStarType>({ blackHoles: 0, blueGiants: 0, blues: 0, yellows: 0, redDwarfs: 0 });
     let [showOrbitTrails, setShowOrbitTrails] = useState(false);
     let [interactiveMode, setInteractiveMode] = useState(false);
@@ -141,10 +141,9 @@ const GalaxyCanvas = () => {
                 <Col xxl={12} xl={8}>
                     <Button size={'sm'} onClick={() => { setShouldDraw(true) }}>Try It</Button>
                     <Button size={'sm'} onClick={handleReset}>Reset</Button>
-                    <div className={'canvas'} id={'galaxy'} />
                     <div className="initial-condition-modifier">
                         <Form.Label>Scenarios</Form.Label>
-                        <Form.Select size={'sm'} defaultValue={'Random Distribution'} onChange={(e) => { handleScenarioSelect(e) }}>
+                        <Form.Select size={'sm'} defaultValue={'Simple Orbit'} onChange={(e) => { handleScenarioSelect(e) }}>
                             <option>Random Distribution</option>
                             <option>Simple Orbit</option>
                             <option>Earth|Moon|Sun Orbit</option>

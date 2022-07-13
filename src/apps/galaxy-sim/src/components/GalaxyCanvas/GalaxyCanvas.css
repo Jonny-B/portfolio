@@ -60,6 +60,10 @@ input {
     width: 100% !important;
 }
 
+.p5Canvas {
+    z-index: 999;
+}
+
 .galaxy-container {
     position: flex;
     position: absolute;
