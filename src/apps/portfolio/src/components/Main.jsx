@@ -1,5 +1,5 @@
-import React  from 'react'
-import {createUseStyles} from "react-jss";
+import React from 'react'
+import { createUseStyles } from "react-jss";
 import Jonny from "./Jonny/Jonny"
 import Leah from "./Leah/Leah"
 import Blewitt from "./Blewitt/Blewitt"
@@ -10,9 +10,9 @@ export default function Main() {
     const blewittRef = React.createRef()
     return (
         <div className={`${classes.main}`}>
-            <Jonny/>
-            <Blewitt buttonLinks={classes.buttonLinks} ref={blewittRef}/>
-            <Leah/>
+            <Jonny />
+            <Blewitt buttonLinks={classes.buttonLinks} ref={blewittRef} />
+            <Leah />
         </div>
     )
 }
@@ -23,7 +23,7 @@ const useStyles = createUseStyles({
         flexDirection: 'Row',
         height: 'infinite',
         width: '300%',
-        background: 'linear-gradient(90deg, rgba(76,13,134,1) 0%, rgba(128,55,225,1) 25%, rgba(82,109,219,1) 50%, rgba(0,205,209,1) 100%)',
+        background: '#262626',
         '& span': {
             width: '100%',
             height: '100%',

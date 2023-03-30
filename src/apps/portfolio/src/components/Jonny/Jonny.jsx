@@ -15,9 +15,17 @@ import influencerList from "./influencerList";
 import jonnyFace from "./jonnyFace.png";
 import starship from "./starship.jpg";
 import galaxy from "./galaxySimClip.jpg";
+import resumeFile from "./JonnyBlewittResume.pdf"
 
 export default function Jonny() {
   const classes = useStyles();
+
+  const handleDownloadClick = () => {
+    const anchor = document.createElement('a');
+    anchor.href = resumeFile;
+    anchor.download = 'resume.pdf';
+    anchor.click();
+  }
 
   return (
     <span id={"jonny"} className={classes.jonny}>
@@ -31,9 +39,9 @@ export default function Jonny() {
               <Nav.Link href="#portfolioJonny">Portfolio</Nav.Link>
               <Nav.Link href="#influencersJonny">Influencers</Nav.Link>
               <Nav.Link href="#resumeJonny">Resume</Nav.Link>
-              <div className={classes.navDivider} />
-              <Nav.Link href="#blewitt">Blewitts</Nav.Link>
-              <Nav.Link href="#leah">Leah</Nav.Link>
+              {/* <div className={classes.navDivider} /> */}
+              {/* <Nav.Link href="#blewitt">Blewitts</Nav.Link> */}
+              {/* <Nav.Link href="#leah">Leah</Nav.Link> */}
             </Nav>
           </Navbar.Collapse>
         </Navbar>
@@ -121,7 +129,9 @@ export default function Jonny() {
         <Card id={"resumeJonny"} className={classes.jonnyCard}>
           <Card.Body>
             <Card.Title>Resume</Card.Title>
-            <Button>Download</Button>
+            <Button onClick={handleDownloadClick}>
+              Download Resume
+            </Button>
           </Card.Body>
         </Card>
       </Container >

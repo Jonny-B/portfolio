@@ -5,7 +5,7 @@ import holdingHands from "./holdingHands.png";
 import notHoldingHands from "./notHoldingHands.png";
 import { helper } from "./Blewitt.helper";
 
-export default function Blewitts (props) {
+export default function Blewitts(props) {
   const classes = useStyles();
 
   useEffect(() => {
@@ -27,7 +27,7 @@ export default function Blewitts (props) {
             <Nav className="me-auto">
               <Nav.Link href="#home">Home</Nav.Link>
               <Nav.Link href="#link">Link</Nav.Link>
-              <div className={classes.navDivider}/>
+              <div className={classes.navDivider} />
               <Nav.Link href="#jonny">Jonny</Nav.Link>
               <Nav.Link href="#leah">Leah</Nav.Link>
             </Nav>
@@ -126,7 +126,8 @@ export default function Blewitts (props) {
         </Card>
       </Container>
 
-      <Container>
+      {/* Temporariliy disable the joint profle design idea. Rather than removing all the code I'll just hide all navigation */}
+      {/* <Container>
         <a href={"#blewitt"}>
           <div className={`${classes.blewittJonnyLink} ${props.buttonLinks}`}>
             {" "}
@@ -143,7 +144,7 @@ export default function Blewitts (props) {
             {" "}
           </div>
         </a>
-      </Container>
+      </Container> */}
     </span>
   );
 };
@@ -208,5 +209,5 @@ const useStyles = createUseStyles({
     margin: "11px 5px 0 5px",
     height: "20px",
     border: "rgba(255,255,255,.55) solid 1px",
-},
+  },
 });
