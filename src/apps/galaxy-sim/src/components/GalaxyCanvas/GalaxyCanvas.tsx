@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Sketch from 'react-p5';
 import Star from '../../simulation/Star'
-import { Button, Form, Container, Row, Col } from 'react-bootstrap'
+import { Button, Form, Container, Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap'
 import helper from './GalaxyCanvas.helper'
 import { calcAttractionForces } from '../../simulation/simulation'
 import { InitialScenario, InitialStarType } from '../../types'
-
 type P5 = import("p5");
 
 const GalaxyCanvas = () => {
@@ -136,9 +135,34 @@ const GalaxyCanvas = () => {
                 <Col xxl={0} xl={0} />
                 <Col xxl={12} xl={8}>
                     <div className="initial-condition-modifier">
+                        <OverlayTrigger
+                            key={'right'}
+                            placement={'right'}
+                            overlay={
+                                <Tooltip id={`tooltip-right`}>
+                                    Click 'Try It' to start the simulation. To start a new scenario click Reset first.'
+                                </Tooltip>
+                            }
+                        >
+                            <Form.Label>Get Started / Reset Scenario</Form.Label>
+                        </OverlayTrigger>
+
+                        <br />
                         <Button size={'sm'} onClick={() => { setShouldDraw(true) }}>Try It</Button>
                         <Button size={'sm'} onClick={handleReset}>Reset</Button>
-                        <Form.Label>Scenarios</Form.Label>
+                        <br />
+                        <OverlayTrigger
+                            key={'right'}
+                            placement={'right'}
+                            overlay={
+                                <Tooltip id={`tooltip-right`}>
+                                    When you select a scenario from the dropdown and click the 'try it' button, the initial conditions and the number of stars in the simulation will change based on the selected scenario
+                                </Tooltip>
+                            }
+                        >
+                            <Form.Label>Scenarios</Form.Label>
+                        </OverlayTrigger>
+
                         <Form.Select size={'sm'} defaultValue={'Simple Orbit'} onChange={(e) => { handleScenarioSelect(e) }}>
                             <option>Random Distribution</option>
                             <option>Simple Orbit</option>
@@ -169,31 +193,68 @@ const GalaxyCanvas = () => {
                                 :
                                 <></>
                         }
-
-                        <Form.Label>Gravitational Constant</Form.Label>
-                        <Form.Control size={'sm'} type="number" value={gravConst} onChange={(e) => { setGravConst(e.currentTarget.value) }} />
-
-                        <Form.Label>Show Orbit Lines</Form.Label>
-                        <Form.Check value={"true"} type="switch" checked={showOrbitTrails} onChange={() => { setShowOrbitTrails(!showOrbitTrails) }} />
-
-                        <Form.Label>Interactive Mode</Form.Label>
+                        <br />
+                        <OverlayTrigger
+                            key={'right'}
+                            placement={'right'}
+                            overlay={
+                                <Tooltip id={`tooltip-right`}>
+                                    Click to enter Interactive Mode. This allows you to modify the simulation in real time by adding new stars or orbit lines.
+                                </Tooltip>
+                            }
+                        >
+                            <Form.Label>Interactive Mode</Form.Label>
+                        </OverlayTrigger>
                         <Form.Check value={"false"} type="switch" checked={interactiveMode} onChange={() => { setInteractiveMode(!interactiveMode) }} />
-                        {interactiveMode ? <div>
-                            <Form.Label>Star Mass</Form.Label>
-                            <Form.Control defaultValue={interactiveStarMass} type="number" onChange={(e) => setInteractiveStarMass(parseInt(e.target.value))} />
-
-
-                        </div> : <></>}
-                        <Form.Label>Stars Field Dimensions</Form.Label>
-                        <div>{starFieldX}</div>
-                        <div>{starFieldY}</div>
-
+                        {interactiveMode ?
+                            <div className="interactive-mode">
+                                <OverlayTrigger
+                                    key={'right'}
+                                    placement={'right'}
+                                    overlay={
+                                        <Tooltip id={`tooltip-right`}>
+                                            Modifies the mass of the star that can be added in. You can also adjust the initial velocity of the star you add by clicking, dragging your mouse and realeasing.
+                                        </Tooltip>
+                                    }
+                                >
+                                    <Form.Label>Star Mass</Form.Label>
+                                </OverlayTrigger>
+                                <Form.Control defaultValue={interactiveStarMass} type="number" onChange={(e) => setInteractiveStarMass(parseInt(e.target.value))} />
+                                <br />
+                                <OverlayTrigger
+                                    key={'right'}
+                                    placement={'right'}
+                                    overlay={
+                                        <Tooltip id={`tooltip-right`}>
+                                            Add Orbit lines that trail behind the stars as they move.
+                                        </Tooltip>
+                                    }
+                                >
+                                    <Form.Label>Show Orbit Lines</Form.Label>
+                                </OverlayTrigger>
+                                <Form.Check value={"true"} type="switch" checked={showOrbitTrails} onChange={() => { setShowOrbitTrails(!showOrbitTrails) }} />
+                                <br />
+                                <OverlayTrigger
+                                    key={'right'}
+                                    placement={'right'}
+                                    overlay={
+                                        <Tooltip id={`tooltip-right`}>
+                                            Modify the strength of the Gravitational Constant
+                                        </Tooltip>
+                                    }
+                                >
+                                    <Form.Label>Gravitational Constant</Form.Label>
+                                </OverlayTrigger>
+                                <Form.Control size={'sm'} type="number" value={gravConst} onChange={(e) => { setGravConst(e.currentTarget.value) }} />
+                            </div> :
+                            null}
+                        <br />
                     </div>
-                    {shouldDraw ? <Sketch setup={setup} draw={draw} mousePressed={mousePress} mouseReleased={mouseRelease} className={`galaxy-canvas ${scenario}`} /> : <></>}</Col>
+                    {shouldDraw ? <Sketch setup={setup} draw={draw} mousePressed={mousePress} mouseReleased={mouseRelease} className={`galaxy-canvas ${scenario}`} /> : null}</Col>
                 <Col xxl={0} xl={2} />
             </Row>
 
-        </Container>
+        </Container >
     );
 }
 

@@ -82,9 +82,13 @@ input {
 
 .form-select,
 .form-control {
-    background: rgba(178, 190, 181, .05) !important;
+    background-color: rgba(178, 190, 181, .05) !important;
     border: rgba(178, 190, 181, .3) solid 2px !important;
     color: rgba(178, 190, 181, .8) !important;
+}
+
+.form-select option {
+    background-color: rgb(38, 38, 38);
 }
 
 .form-check-input {
@@ -114,4 +118,8 @@ input {
 
 .initial-condition-modifiers-form {
     color: whitesmoke;
+}
+
+.interactive-mode {
+    padding: 10px;
 }
