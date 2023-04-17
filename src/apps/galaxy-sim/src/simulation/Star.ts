@@ -19,7 +19,6 @@ export default class Star {
     }
 
     update(): void {
-        this.acc = Vector.constrainVector(this.acc, 0.02)
         this.vel.add(this.acc);
         this.pos.add(this.vel);
         this.acc.mult(0);
