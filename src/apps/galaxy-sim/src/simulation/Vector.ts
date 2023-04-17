@@ -7,6 +7,10 @@ export default class Vector {
     this.y = y;
   }
 
+  static add(v1: Vector, v2: Vector): Vector {
+    return new Vector(v1.x + v2.x, v1.y + v2.y);
+  }
+
   static sub(v1: Vector, v2: Vector): Vector {
     return new Vector(v1.x - v2.x, v1.y - v2.y);
   }
@@ -43,17 +47,17 @@ export default class Vector {
     return this.x * this.x + this.y * this.y;
   }
 
-  add(value: Vector | number[]): Vector {
-    if (value instanceof Vector) {
-      this.x += value.x;
-      this.y += value.y;
-    } else {
-      this.x += value[0];
-      this.y += value[1];
-    }
+  add(value: Vector): Vector {
+    this.x += value.x;
+    this.y += value.y;
     return this;
   }
 
+  sub(value: Vector): Vector {
+    this.x -= value.x;
+    this.y -= value.y;
+    return this;
+  }
 
   mult(n: number): Vector {
     this.x *= n;
