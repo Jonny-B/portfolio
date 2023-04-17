@@ -9,7 +9,6 @@ import { InitialScenario, InitialStarType } from '../../types'
 type P5 = import("p5");
 
 const GalaxyCanvas = () => {
-    let p5: P5;
     let mousePressXCoords: number = 0;
     let mousePressYCoords: number = 0;
 
@@ -32,7 +31,7 @@ const GalaxyCanvas = () => {
 
     const setup = (pfive: P5, parentRef: Element) => {
         setCanvas(pfive.createCanvas(starFieldX, starFieldY).parent(parentRef));
-        setStars(helper.createStarField(pfive, { width: starFieldX, height: starFieldY }, initialStarTypes, scenario))
+        setStars(helper.createStarField({ width: starFieldX, height: starFieldY }, initialStarTypes, scenario))
     };
 
     useEffect(() => {
@@ -48,7 +47,7 @@ const GalaxyCanvas = () => {
         pfive.strokeWeight(4);
         // This should go in simulate
         for (let i = 0; i < stars.length; i++) {
-            helper.show(scenario, stars[i]);
+            helper.show(scenario, stars[i], pfive);
             stars[i].update();
             for (let j = 0 + i; j < stars.length; j++) {
                 // We don't want to calculate the same star against itself
@@ -123,7 +122,7 @@ const GalaxyCanvas = () => {
                 let velY = (e.mouseY - mousePressYCoords) / 100
                 console.log(`[${velX},  ${velY}]`)
                 // Need to contain the click to only inside the canvas
-                let newStar = new Star(e.mouseX, e.mouseY, p5, interactiveStarMass, [velX, velY])
+                let newStar = new Star(e.mouseX, e.mouseY, interactiveStarMass, [velX, velY])
                 stars.push(newStar);
             }
         }

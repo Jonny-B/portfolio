@@ -11,55 +11,55 @@ import {
 } from './GalaxyCanvas.scenarios';
 
 const helper = {
-    show: (scenario: InitialScenario, star: Star): void => {
+    show: (scenario: InitialScenario, star: Star, pfive: p5): void => {
         switch (scenario) {
             case 'Random Distribution':
-                randomScenario(star);
+                randomScenario(star, pfive);
                 break;
             case 'Simple Orbit':
-                simpleOrbit(star);
+                simpleOrbit(star, pfive);
                 break;
             case 'Earth|Moon|Sun Orbit':
-                earthMoonSunOrbit(star);
+                earthMoonSunOrbit(star, pfive);
                 break;
             case 'Solar System':
-                solarSystem(star);
+                solarSystem(star, pfive);
                 break;
             case 'Solar System Collision':
-                solarSystemCollision(star);
+                solarSystemCollision(star, pfive);
                 break;
             case 'Galaxy':
-                galaxy(star);
+                galaxy(star, pfive);
                 break;
             default:
-                randomScenario(star);
+                randomScenario(star, pfive);
                 break;
         }
     },
-    createStarField: (pfive: p5, window: WindowDimensions, types: InitialStarType, scenario: InitialScenario): Array<Star> => {
+    createStarField: (window: WindowDimensions, types: InitialStarType, scenario: InitialScenario): Array<Star> => {
         let stars: Array<Star> = [];
 
         switch (scenario) {
             case 'Random Distribution':
-                createRandomScenario(pfive, types, stars)
+                createRandomScenario(types, stars)
                 break;
             case 'Simple Orbit':
-                createSimpleOrbit(pfive, window, stars)
+                createSimpleOrbit(window, stars)
                 break;
             case 'Earth|Moon|Sun Orbit':
-                createEarthMoonSunOrbit(pfive, window, stars)
+                createEarthMoonSunOrbit(window, stars)
                 break;
             case 'Solar System':
-                createSolarSystem(pfive, window, stars)
+                createSolarSystem(window, stars)
                 break;
             case 'Solar System Collision':
-                createSolarSystemCollision(pfive, window, stars)
+                createSolarSystemCollision(window, stars)
                 break;
             case 'Galaxy':
-                createGalaxy(pfive, window, stars)
+                createGalaxy(window, stars)
                 break;
             default:
-                createRandomScenario(pfive, types, stars)
+                createRandomScenario(types, stars)
                 break;
         }
         return stars;
@@ -78,129 +78,129 @@ const helper = {
     }
 }
 
-function randomScenario(star: Star): void {
+function randomScenario(star: Star, pfive: p5): void {
     if (star.mass <= 100) {
         // Red Dwarf
-        star.p5.stroke(245, 171, 171)
-        star.p5.strokeWeight(2);
+        pfive.stroke(245, 171, 171)
+        pfive.strokeWeight(2);
     }
     else if (star.mass <= 300) {
         // Yellow
-        star.p5.stroke(255)
-        star.p5.strokeWeight(2);
+        pfive.stroke(255)
+        pfive.strokeWeight(2);
     }
     else if (star.mass <= 500) {
         // Blue
-        star.p5.stroke(234, 240, 240)
-        star.p5.strokeWeight(2);
+        pfive.stroke(234, 240, 240)
+        pfive.strokeWeight(2);
     }
     else if (star.mass <= 999) {
         // Blue Giant
-        star.p5.stroke(160, 184, 250)
-        star.p5.strokeWeight(2);
+        pfive.stroke(160, 184, 250)
+        pfive.strokeWeight(2);
     }
     else {
         // Black Hole
-        star.p5.stroke(0);
-        star.p5.strokeWeight(1);
+        pfive.stroke(0);
+        pfive.strokeWeight(1);
     }
 
-    star.p5.point(star.pos.x, star.pos.y)
+    pfive.point(star.pos.x, star.pos.y)
 }
 
-function simpleOrbit(star: Star): void {
+function simpleOrbit(star: Star, pfive: p5): void {
     if (star.mass > 999) {
-        star.p5.stroke(255, 255, 128)
-        star.p5.strokeWeight(10);
+        pfive.stroke(255, 255, 128)
+        pfive.strokeWeight(10);
     }
     else {
-        star.p5.stroke(160, 184, 250)
-        star.p5.strokeWeight(4);
+        pfive.stroke(160, 184, 250)
+        pfive.strokeWeight(4);
     }
 
-    star.p5.point(star.pos.x, star.pos.y)
+    pfive.point(star.pos.x, star.pos.y)
 }
 
-function earthMoonSunOrbit(star: Star): void {
+function earthMoonSunOrbit(star: Star, pfive: p5): void {
     // Sun
     if (star.mass > 10000) {
-        star.p5.stroke(255, 255, 128)
-        star.p5.strokeWeight(10);
+        pfive.stroke(255, 255, 128)
+        pfive.strokeWeight(10);
     }
     // Earth
     else if (star.mass > 999) {
-        star.p5.stroke(160, 184, 250)
-        star.p5.strokeWeight(5);
+        pfive.stroke(160, 184, 250)
+        pfive.strokeWeight(5);
     }
     // Moon
     else {
-        star.p5.stroke(136, 136, 136)
-        star.p5.strokeWeight(3);
+        pfive.stroke(136, 136, 136)
+        pfive.strokeWeight(3);
     }
 
-    star.p5.point(star.pos.x, star.pos.y)
+    pfive.point(star.pos.x, star.pos.y)
 }
 
-function solarSystem(star: Star): void {
+function solarSystem(star: Star, pfive: p5): void {
     if (star.mass > 10000) {
-        star.p5.stroke(255)
-        star.p5.strokeWeight(10);
+        pfive.stroke(255)
+        pfive.strokeWeight(10);
     }
     else if (star.mass > 999) {
-        star.p5.stroke(160, 184, 250)
-        star.p5.strokeWeight(4);
+        pfive.stroke(160, 184, 250)
+        pfive.strokeWeight(4);
     }
     else {
-        star.p5.stroke(124, 252, 0)
-        star.p5.strokeWeight(2);
+        pfive.stroke(124, 252, 0)
+        pfive.strokeWeight(2);
     }
 
-    star.p5.point(star.pos.x, star.pos.y)
+    pfive.point(star.pos.x, star.pos.y)
 }
 
-function solarSystemCollision(star: Star): void {
+function solarSystemCollision(star: Star, pfive: p5): void {
     if (star.mass > 999) {
-        star.p5.stroke(255, 255, 128)
-        star.p5.strokeWeight(5);
+        pfive.stroke(255, 255, 128)
+        pfive.strokeWeight(5);
     }
     else {
-        star.p5.stroke(102, 153, 153)
-        star.p5.strokeWeight(4);
+        pfive.stroke(102, 153, 153)
+        pfive.strokeWeight(4);
     }
 
-    star.p5.point(star.pos.x, star.pos.y)
+    pfive.point(star.pos.x, star.pos.y)
 }
 
-function galaxy(star: Star): void {
+function galaxy(star: Star, pfive: p5): void {
     if (star.mass <= 100) {
         // Red Dwarf
-        star.p5.stroke(245, 171, 171)
-        star.p5.strokeWeight(2);
+        pfive.stroke(245, 171, 171)
+        pfive.strokeWeight(2);
     }
     else if (star.mass <= 300) {
         // Yellow
-        star.p5.stroke(255)
-        star.p5.strokeWeight(2);
+        pfive.stroke(255)
+        pfive.strokeWeight(2);
     }
     else if (star.mass <= 500) {
         // Blue
-        star.p5.stroke(234, 240, 240)
-        star.p5.strokeWeight(2);
+        pfive.stroke(234, 240, 240)
+        pfive.strokeWeight(2);
     }
     else if (star.mass <= 999) {
         // Blue Giant
-        star.p5.stroke(160, 184, 250)
-        star.p5.strokeWeight(2);
+        pfive.stroke(160, 184, 250)
+        pfive.strokeWeight(2);
     }
     else {
         // Black Hole
-        star.p5.stroke(0, 0, 51);
-        star.p5.strokeWeight(10);
+        pfive.stroke(0, 0, 51);
+        pfive.strokeWeight(10);
     }
 
-    star.p5.point(star.pos.x, star.pos.y)
+    pfive.point(star.pos.x, star.pos.y)
 
-    star.p5.point(star.pos.x, star.pos.y)
+    pfive.point(star.pos.x, star.pos.y)
 }
 
 export default helper;
