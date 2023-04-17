@@ -48,7 +48,7 @@ const GalaxyCanvas = () => {
         pfive.strokeWeight(4);
         // This should go in simulate
         for (let i = 0; i < stars.length; i++) {
-            stars[i].show(scenario);
+            helper.show(scenario, stars[i]);
             stars[i].update();
             for (let j = 0 + i; j < stars.length; j++) {
                 // We don't want to calculate the same star against itself

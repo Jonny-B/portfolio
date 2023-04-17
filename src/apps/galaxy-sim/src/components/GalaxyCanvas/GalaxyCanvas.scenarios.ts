@@ -3,7 +3,7 @@ import p5 from 'p5'
 import Star  from '../../simulation/Star'
 import helper from './GalaxyCanvas.helper'
 
-export function randomScenario(pfive: p5, types: InitialStarType, stars: Array<Star>) {
+export function createRandomScenario(pfive: p5, types: InitialStarType, stars: Array<Star>) {
     let xMin = 250
     let xMax = 750
     let yMin = 250
@@ -42,7 +42,7 @@ export function randomScenario(pfive: p5, types: InitialStarType, stars: Array<S
     }
 }
 
-export function simpleOrbit(pfive: p5, window: WindowDimensions, stars: Array<Star>) {
+export function createSimpleOrbit(pfive: p5, window: WindowDimensions, stars: Array<Star>) {
     let x = window.width;
     let y = window.height;
 
@@ -54,7 +54,7 @@ export function simpleOrbit(pfive: p5, window: WindowDimensions, stars: Array<St
     stars.push(new Star(x * .50, y * .40, pfive, 100, [.85, 0]));
 }
 
-export function earthMoonSunOrbit(pfive: p5, window: WindowDimensions, stars: Array<Star>) {
+export function createEarthMoonSunOrbit(pfive: p5, window: WindowDimensions, stars: Array<Star>) {
     let x = window.width;
     let y = window.height;
 
@@ -69,7 +69,7 @@ export function earthMoonSunOrbit(pfive: p5, window: WindowDimensions, stars: Ar
     stars.push(new Star(x * .51, y * .29, pfive, 1, [1.01, .1]));
 }
 
-export function solarSystem(pfive: p5, window: WindowDimensions, stars: Array<Star>) {
+export function createSolarSystem(pfive: p5, window: WindowDimensions, stars: Array<Star>) {
     let x = window.width;
     let y = window.height;
 
@@ -90,7 +90,7 @@ export function solarSystem(pfive: p5, window: WindowDimensions, stars: Array<St
     console.log(`${x * .50} ${y * .48}`)
 }
 
-export function solarSystemCollision(pfive: p5, window: WindowDimensions, stars: Array<Star>) {
+export function createSolarSystemCollision(pfive: p5, window: WindowDimensions, stars: Array<Star>) {
         let x = window.width;
     let y = window.height;
 
@@ -141,7 +141,7 @@ export function solarSystemCollision(pfive: p5, window: WindowDimensions, stars:
 
 }
 
-export function galaxy(pfive: p5, window: WindowDimensions, stars: Array<Star>) {
+export function createGalaxy(pfive: p5, window: WindowDimensions, stars: Array<Star>) {
     let x = window.width;
     let y = window.height;
 
