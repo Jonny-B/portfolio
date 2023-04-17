@@ -1,6 +1,6 @@
 import { WindowDimensions, InitialStarType } from '../../types';
 import p5 from 'p5'
-import { Star } from './Star'
+import Star  from '../../simulation/Star'
 import helper from './GalaxyCanvas.helper'
 
 export function randomScenario(pfive: p5, types: InitialStarType, stars: Array<Star>) {
