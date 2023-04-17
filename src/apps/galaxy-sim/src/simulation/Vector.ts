@@ -3,8 +3,8 @@ export default class Vector {
   y: number;
 
   constructor(x: number, y: number) {
-      this.x = x;
-      this.y = y;
+    this.x = x;
+    this.y = y;
   }
 
   static sub(v1: Vector, v2: Vector): Vector {
@@ -15,11 +15,17 @@ export default class Vector {
     return new Vector(v.x / n, v.y / n);
   }
 
-  static constrain(value: number, min: number, max: number) {
-  return Math.min(Math.max(value, min), max);
+  static constrain(value: number, min: number, max: number): number {
+    return Math.min(Math.max(value, min), max);
   }
 
-
+  static constrainVector(vector: Vector, maxMagnitude: number): Vector {
+    const magnitude = vector.mag();
+    if (magnitude > maxMagnitude) {
+      vector.setMag(maxMagnitude);
+    }
+    return vector;
+  }
 
   setMag(len: number): Vector {
     const m = this.mag();
