@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Sketch from 'react-p5';
-import { Star } from './Star'
+import Star from '../../simulation/Star'
 import { Button, Form, Container, Row, Col } from 'react-bootstrap'
 import helper from './GalaxyCanvas.helper'
+import { calcAttractionForces } from '../../simulation/simulation'
 import { InitialScenario, InitialStarType } from '../../types'
 
 type P5 = import("p5");
@@ -30,7 +31,6 @@ const GalaxyCanvas = () => {
     let [canvas, setCanvas] = useState<any>();
 
     const setup = (pfive: P5, parentRef: Element) => {
-        p5 = pfive;
         setCanvas(pfive.createCanvas(starFieldX, starFieldY).parent(parentRef));
         setStars(helper.createStarField(pfive, { width: starFieldX, height: starFieldY }, initialStarTypes, scenario))
     };
@@ -41,22 +41,19 @@ const GalaxyCanvas = () => {
 
     const draw = (pfive: P5) => {
         // Redrawing background will remove trails
-        p5 = pfive;
         if (!showOrbitTrails) {
-            // pfive.background(0);
             pfive.clear()
         }
         pfive.stroke(255);
         pfive.strokeWeight(4);
+        // This should go in simulate
         for (let i = 0; i < stars.length; i++) {
             stars[i].show(scenario);
-            stars[i].update()
-        }
-        for (let i = 0; i < stars.length - 1; i++) {
+            stars[i].update();
             for (let j = 0 + i; j < stars.length; j++) {
                 // We don't want to calculate the same star against itself
                 if (i === j) continue;
-                helper.calcAttractionForces(stars[i], stars[j], pfive, gravConst);
+                calcAttractionForces(stars[i], stars[j], parseFloat(gravConst));
             }
         }
     };
