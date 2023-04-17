@@ -8,12 +8,21 @@ async function runBuildScripts() {
 
     // Filter out hidden files from results and then build scripts from there
     const buildScripts = appDirs.map((dir) => {
-        // dir is a absolute route at this point
         const dirName = dir.split('/').pop()
-        // Along side install and build this will delete all builds, make new build directories, and then copy the build files from each app to the backend build directory.
-        return `cd ${dir} && yarn install && PUBLIC_URL=/${dirName} yarn build && rm -r ../../backend/builds/${dirName} && mkdir ../../backend/builds/${dirName} || true && mv build/* ../../backend/builds/${dirName}`
-    }).join(' && ')
+        // Use cross-platform command for setting environment variable on Windows and macOS
+        const setEnvCommand = process.platform === 'win32' ? 'set' : 'export';
+        // Use cross-platform directory separator for Windows and macOS
+        const dirSeparator = process.platform === 'win32' ? '\\' : '/';
+        // Use cross-platform command for removing directory on Windows and macOS
+        const rmDirCommand = process.platform === 'win32' ? 'rmdir /s /q' : 'rm -r';
+        // Use cross-platform command for fallback on Windows and macOS
+        const fallback = process.platform === 'win32' ? 'echo' : 'true';
+        // Use cross-platform command for move on Windows and macOS
+        const move = process.platform === 'win32' ? 'move' : 'mv';
 
+        // Alongside install and build, this will delete all builds, make new build directories, and then copy the build files from each app to the backend build directory.
+        return `cd ${dir} && yarn install && ${setEnvCommand} PUBLIC_URL=/${dirName} && yarn build && ${rmDirCommand} ../../backend/builds${dirSeparator}${dirName} && mkdir ../../backend/builds${dirSeparator}${dirName} || ${fallback} && ${move} build${dirSeparator}* ../../backend/builds${dirSeparator}${dirName}`
+    }).join(' && ');
 
     console.log('Installing node modules and building apps. This may take a while')
     const childProcess = exec(buildScripts)
