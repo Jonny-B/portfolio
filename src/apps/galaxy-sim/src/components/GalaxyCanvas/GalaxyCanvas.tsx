@@ -27,6 +27,9 @@ const GalaxyCanvas = () => {
     let [interactiveStarMass, setInteractiveStarMass] = useState(1000);
     let [stars, setStars] = useState<Array<Star>>([])
     let [canvas, setCanvas] = useState<any>();
+    let [isPreRendering, setIsPreRendering] = useState(false);
+    let [isPlayPreRendering, setIsPlayPreRendering] = useState(false);
+    let [preRenderedSenario, setPrerenderedScenario] = useState(false);
 
     const setup = (pfive: P5, parentRef: Element) => {
         setCanvas(pfive.createCanvas(starFieldX, starFieldY).parent(parentRef));
@@ -44,20 +47,37 @@ const GalaxyCanvas = () => {
         }
         pfive.stroke(255);
         pfive.strokeWeight(4);
-        // This should go in simulate
-        for (let i = 0; i < stars.length; i++) {
-            helper.show(scenario, stars[i], pfive);
-            stars[i].update();
-            for (let j = 0 + i; j < stars.length; j++) {
-                // We don't want to calculate the same star against itself
-                if (i === j) continue;
-                calcAttractionForces(stars[i], stars[j], parseFloat(gravConst));
+        if (true) {
+            for (let i = 0; i < stars.length; i++) {
+                helper.show(scenario, stars[i], pfive);
+                stars[i].update();
+                for (let j = 0 + i; j < stars.length; j++) {
+                    // We don't want to calculate the same star against itself
+                    if (i === j) continue;
+                    calcAttractionForces(stars[i], stars[j], parseFloat(gravConst));
+                }
             }
         }
+        else {
+            // let prStars = preRenderedFrames[pfive.frameCount];
+            // for (let i = 0; i < prStars.length; i++) {
+            //     helper.show(scenario, prStars[i], pfive);
+            // }
+        }
+
     };
 
-    function handleReset() {
+    function handleReset(): void {
         setShouldDraw(false)
+    }
+
+    function handleStartPrerender(): void {
+        setIsPreRendering(true)
+    }
+
+    function handleStopPrerender(): void {
+        setIsPreRendering(false)
+        setPrerenderedScenario(true)
     }
 
     function handleScenarioSelect(e: React.ChangeEvent<HTMLSelectElement>) {
@@ -131,25 +151,33 @@ const GalaxyCanvas = () => {
 
     return (
         <Container fluid className="galaxy-container">
+            {isPreRendering ? <div className="loader" /> : null}
             <Row>
                 <Col xxl={0} xl={0} />
                 <Col xxl={12} xl={8}>
-                    <div className="initial-condition-modifier">
+                    <div className="initial-condition-container">
                         <OverlayTrigger
                             key={'right'}
                             placement={'right'}
                             overlay={
                                 <Tooltip id={`tooltip-right`}>
-                                    Click 'Try It' to start the simulation. To start a new scenario click Reset first.'
+                                    Click 'Try It' to start the simulation.'
                                 </Tooltip>
                             }
                         >
-                            <Form.Label>Get Started / Reset Scenario</Form.Label>
+                            <Form.Label>Get Started</Form.Label>
                         </OverlayTrigger>
 
                         <br />
-                        <Button size={'sm'} onClick={() => { setShouldDraw(true) }}>Try It</Button>
-                        <Button size={'sm'} onClick={handleReset}>Reset</Button>
+                        <Button size={'sm'} onClick={() => {
+                            shouldDraw ? handleReset() : setShouldDraw(true);
+                        }} disabled={isPreRendering}>{shouldDraw ? "Stop" : "Start"}</Button>
+                        <>|</>
+                        <Button size={'sm'} onClick={() => {
+                            isPreRendering ? handleStopPrerender() : handleStartPrerender();
+                        }}>
+                            {isPreRendering ? "Stop PreRender" : (!isPreRendering && preRenderedSenario ? "Play PreRender" : "Start PreRender")}
+                        </Button>
                         <br />
                         <OverlayTrigger
                             key={'right'}
@@ -163,7 +191,7 @@ const GalaxyCanvas = () => {
                             <Form.Label>Scenarios</Form.Label>
                         </OverlayTrigger>
 
-                        <Form.Select size={'sm'} defaultValue={'Simple Orbit'} onChange={(e) => { handleScenarioSelect(e) }}>
+                        <Form.Select size={'sm'} defaultValue={'Simple Orbit'} onChange={(e) => { handleScenarioSelect(e) }} disabled={isPreRendering}>
                             <option>Random Distribution</option>
                             <option>Simple Orbit</option>
                             <option>Earth|Moon|Sun Orbit</option>
@@ -175,8 +203,6 @@ const GalaxyCanvas = () => {
                             scenario === 'Random Distribution' ?
                                 <>
                                     <Form.Label># Stars</Form.Label>
-                                    {/* <Form.Control disabled size={'sm'} type="number" value={750} /> */}
-
                                     <Form.Label>Star # By Type</Form.Label>
                                     <Form.Label>Black Holes</Form.Label>
                                     <Form.Control size={'sm'} type="number" defaultValue={1} onChange={(e) => { setBlackHoles(parseInt(e.currentTarget.value)) }} />
@@ -205,7 +231,7 @@ const GalaxyCanvas = () => {
                         >
                             <Form.Label>Interactive Mode</Form.Label>
                         </OverlayTrigger>
-                        <Form.Check value={"false"} type="switch" checked={interactiveMode} onChange={() => { setInteractiveMode(!interactiveMode) }} />
+                        <Form.Check value={"false"} type="switch" checked={interactiveMode} onChange={() => { setInteractiveMode(!interactiveMode) }} disabled={isPreRendering} />
                         {interactiveMode ?
                             <div className="interactive-mode">
                                 <OverlayTrigger

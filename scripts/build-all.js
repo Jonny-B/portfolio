@@ -4,6 +4,7 @@ const { promises } = require('fs')
 // This script dynamically builds the build scripts for any react project that is in src/apps. 
 async function runBuildScripts() {
 
+    // TODO CSS and JS are not getting updated during build-all script
     const appDirs = (await promises.readdir('./src/apps')).filter((file) => file[0] !== '.').map((dir) => `${process.cwd()}/src/apps/${dir}`);
 
     // Filter out hidden files from results and then build scripts from there

@@ -63,12 +63,12 @@ input {
 }
 
 .galaxy-container {
-    position: flex;
+    position: relative;
     position: absolute;
     padding: 25px;
 }
 
-.initial-condition-modifier {
+.initial-condition-container {
     position: relative;
     overflow: hidden;
     padding: 20px;
@@ -76,7 +76,7 @@ input {
     background: rgba(178, 190, 181, .05);
     border: rgba(178, 190, 181, .3) solid 2px;
     border-radius: 5px;
-    width: 250px;
+    width: 280px;
     display: inline-block;
 }
 
@@ -85,6 +85,10 @@ input {
     background-color: rgba(178, 190, 181, .05) !important;
     border: rgba(178, 190, 181, .3) solid 2px !important;
     color: rgba(178, 190, 181, .8) !important;
+}
+
+.form-select:disabled {
+    color: rgba(178, 190, 181, .5) !important;
 }
 
 .form-select option {
@@ -104,22 +108,46 @@ input {
     color: rgba(178, 190, 181, .9) !important;
 }
 
-.initial-condition-modifier label {
+.initial-condition-container label {
     color: white
 }
 
-.initial-condition-modifier input {
+.initial-condition-container input {
     width: 150px
 }
 
-.initial-condition-modifiers-label {
+.initial-condition-containers-label {
     color: whitesmoke !important;
 }
 
-.initial-condition-modifiers-form {
+.initial-condition-containers-form {
     color: whitesmoke;
 }
 
 .interactive-mode {
     padding: 10px;
+}
+
+.loader {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    background-image: url('../../../public/galaxy.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    animation: spin 1s infinite linear;
+    position: absolute;
+    fill: white;
+    top: 100%;
+    left: 50%;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
