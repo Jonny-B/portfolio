@@ -75,7 +75,7 @@ const helper = {
         min = Math.ceil(min);
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
-    }
+    },
 }
 
 function randomScenario(star: Star, pfive: p5): void {

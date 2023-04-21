@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Sketch from 'react-p5';
 import Star from '../../simulation/Star'
-import { Button, Form, Container, Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap'
+import { Container, Row, Col, Tabs, Tab } from 'react-bootstrap'
 import helper from './GalaxyCanvas.helper'
 import { calcAttractionForces } from '../../simulation/simulation'
 import { InitialScenario, InitialStarType } from '../../types'
+import { PreRenderSim } from '../../simulation/PreRenderSim';
+import PreRenderTab from './Tabs/PreRenderTab';
+import RealTimeTab from './Tabs/RealTimeTab';
 type P5 = import("p5");
 
 const GalaxyCanvas = () => {
@@ -13,11 +16,13 @@ const GalaxyCanvas = () => {
 
     let [scenario, setScenario] = useState<InitialScenario>('Simple Orbit')
     let [shouldDraw, setShouldDraw] = useState<boolean>(false)
-    let [blackHoles, setBlackHoles] = useState<number>(1)
-    let [blueGiants, setBlueGiants] = useState<number>(12)
-    let [blues, setBlues] = useState<number>(50)
-    let [yellows, setYellows] = useState<number>(150)
-    let [redDwarfs, setRedDwarfs] = useState<number>(350)
+    const [stars, setStars] = useState({
+        blackHoles: 1,
+        blueGiants: 12,
+        blues: 50,
+        yellows: 150,
+        redDwarfs: 350
+    });
     let [starFieldX] = useState<number>(1024)
     let [starFieldY] = useState<number>(1132)
     let [gravConst, setGravConst] = useState<string>('0.0006674')
@@ -25,20 +30,39 @@ const GalaxyCanvas = () => {
     let [showOrbitTrails, setShowOrbitTrails] = useState(false);
     let [interactiveMode, setInteractiveMode] = useState(false);
     let [interactiveStarMass, setInteractiveStarMass] = useState(1000);
-    let [stars, setStars] = useState<Array<Star>>([])
+    let [starField, setStarField] = useState<Array<Star>>([])
     let [canvas, setCanvas] = useState<any>();
+    let [preRenderTime, setPreRenderTime] = useState<number>(3000);
+    let [preRenderSim, setPreRenderSim] = useState<PreRenderSim>(new PreRenderSim(starField, scenario, preRenderTime, gravConst));
     let [isPreRendering, setIsPreRendering] = useState(false);
-    let [isPlayPreRendering, setIsPlayPreRendering] = useState(false);
-    let [preRenderedSenario, setPrerenderedScenario] = useState(false);
+    let [isPlayingPreRendered, setIsPlayingPreRendered] = useState(false);
 
     const setup = (pfive: P5, parentRef: Element) => {
         setCanvas(pfive.createCanvas(starFieldX, starFieldY).parent(parentRef));
-        setStars(helper.createStarField({ width: starFieldX, height: starFieldY }, initialStarTypes, scenario))
+        setStarField(helper.createStarField({ width: starFieldX, height: starFieldY }, initialStarTypes, scenario))
     };
 
     useEffect(() => {
-        setInitialStarTypes({ blackHoles, blueGiants, blues, yellows, redDwarfs })
-    }, [blackHoles, blueGiants, blues, yellows, redDwarfs])
+        setInitialStarTypes(stars)
+    }, [stars])
+
+    useEffect(() => {
+        if (isPreRendering) {
+            const starField = helper.createStarField({ width: starFieldX, height: starFieldY }, initialStarTypes, scenario)
+            const sim = new PreRenderSim(starField, scenario, preRenderTime, gravConst)
+            sim.resetRender()
+            sim.startRender()
+            setPreRenderSim(sim)
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isPreRendering])
+
+    useEffect(() => {
+        if (isPlayingPreRendered) {
+            setShouldDraw(true)
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isPlayingPreRendered])
 
     const draw = (pfive: P5) => {
         // Redrawing background will remove trails
@@ -47,38 +71,28 @@ const GalaxyCanvas = () => {
         }
         pfive.stroke(255);
         pfive.strokeWeight(4);
-        if (true) {
-            for (let i = 0; i < stars.length; i++) {
-                helper.show(scenario, stars[i], pfive);
-                stars[i].update();
-                for (let j = 0 + i; j < stars.length; j++) {
+        if (isPlayingPreRendered) {
+            console.log("Playing Pre-rendered Scenario")
+            console.log(pfive.frameCount)
+            let prStars = preRenderSim.preRenderedSim[pfive.frameCount];
+            for (let i = 0; i < prStars.length; i++) {
+                console.log(`Star ${i} pos: [${prStars[i].pos.x},${prStars[i].pos.y} ]`)
+                helper.show(scenario, prStars[i], pfive);
+            }
+        }
+        else if (shouldDraw) {
+            console.log("Running Real Time Simulation")
+            for (let i = 0; i < starField.length; i++) {
+                helper.show(scenario, starField[i], pfive);
+                starField[i].update();
+                for (let j = 0 + i; j < starField.length; j++) {
                     // We don't want to calculate the same star against itself
                     if (i === j) continue;
-                    calcAttractionForces(stars[i], stars[j], parseFloat(gravConst));
+                    calcAttractionForces(starField[i], starField[j], parseFloat(gravConst));
                 }
             }
         }
-        else {
-            // let prStars = preRenderedFrames[pfive.frameCount];
-            // for (let i = 0; i < prStars.length; i++) {
-            //     helper.show(scenario, prStars[i], pfive);
-            // }
-        }
-
     };
-
-    function handleReset(): void {
-        setShouldDraw(false)
-    }
-
-    function handleStartPrerender(): void {
-        setIsPreRendering(true)
-    }
-
-    function handleStopPrerender(): void {
-        setIsPreRendering(false)
-        setPrerenderedScenario(true)
-    }
 
     function handleScenarioSelect(e: React.ChangeEvent<HTMLSelectElement>) {
         setScenario(e.currentTarget.value as InitialScenario)
@@ -102,6 +116,10 @@ const GalaxyCanvas = () => {
         else {
             setShowOrbitTrails(false);
         }
+    }
+
+    function handleReset(): void {
+        setShouldDraw(false)
     }
 
     function mousePress(e: any) {
@@ -142,7 +160,7 @@ const GalaxyCanvas = () => {
                 console.log(`[${velX},  ${velY}]`)
                 // Need to contain the click to only inside the canvas
                 let newStar = new Star(e.mouseX, e.mouseY, interactiveStarMass, [velX, velY])
-                stars.push(newStar);
+                starField.push(newStar);
             }
         }
         return false;
@@ -156,125 +174,49 @@ const GalaxyCanvas = () => {
                 <Col xxl={0} xl={0} />
                 <Col xxl={12} xl={8}>
                     <div className="initial-condition-container">
-                        <OverlayTrigger
-                            key={'right'}
-                            placement={'right'}
-                            overlay={
-                                <Tooltip id={`tooltip-right`}>
-                                    Click 'Try It' to start the simulation.'
-                                </Tooltip>
-                            }
+                        <Tabs
+                            defaultActiveKey="RealTimeTab"
+                            id="intitial-condition-tabs"
+                            className="mb-3"
                         >
-                            <Form.Label>Get Started</Form.Label>
-                        </OverlayTrigger>
+                            <Tab eventKey="RealTimeTab" title="Real Time">
+                                <RealTimeTab
+                                    shouldDraw={shouldDraw}
+                                    setShouldDraw={setShouldDraw}
+                                    isPreRendering={isPreRendering}
+                                    handleScenarioSelect={handleScenarioSelect}
+                                    handleReset={handleReset}
+                                    setStars={setStars}
+                                    stars={stars}
+                                    scenario={scenario}
+                                    interactiveMode={interactiveMode}
+                                    setInteractiveMode={setInteractiveMode}
+                                    interactiveStarMass={interactiveStarMass}
+                                    setInteractiveStarMass={setInteractiveStarMass}
+                                    showOrbitTrails={showOrbitTrails}
+                                    setShowOrbitTrails={setShowOrbitTrails}
+                                    gravConst={gravConst}
+                                    setGravConst={setGravConst}
 
-                        <br />
-                        <Button size={'sm'} onClick={() => {
-                            shouldDraw ? handleReset() : setShouldDraw(true);
-                        }} disabled={isPreRendering}>{shouldDraw ? "Stop" : "Start"}</Button>
-                        <>|</>
-                        <Button size={'sm'} onClick={() => {
-                            isPreRendering ? handleStopPrerender() : handleStartPrerender();
-                        }}>
-                            {isPreRendering ? "Stop PreRender" : (!isPreRendering && preRenderedSenario ? "Play PreRender" : "Start PreRender")}
-                        </Button>
-                        <br />
-                        <OverlayTrigger
-                            key={'right'}
-                            placement={'right'}
-                            overlay={
-                                <Tooltip id={`tooltip-right`}>
-                                    When you select a scenario from the dropdown and click the 'try it' button, the initial conditions and the number of stars in the simulation will change based on the selected scenario
-                                </Tooltip>
-                            }
-                        >
-                            <Form.Label>Scenarios</Form.Label>
-                        </OverlayTrigger>
-
-                        <Form.Select size={'sm'} defaultValue={'Simple Orbit'} onChange={(e) => { handleScenarioSelect(e) }} disabled={isPreRendering}>
-                            <option>Random Distribution</option>
-                            <option>Simple Orbit</option>
-                            <option>Earth|Moon|Sun Orbit</option>
-                            <option>Solar System</option>
-                            <option>Solar System Collision</option>
-                            <option>Galaxy</option>
-                        </Form.Select>
-                        {
-                            scenario === 'Random Distribution' ?
-                                <>
-                                    <Form.Label># Stars</Form.Label>
-                                    <Form.Label>Star # By Type</Form.Label>
-                                    <Form.Label>Black Holes</Form.Label>
-                                    <Form.Control size={'sm'} type="number" defaultValue={1} onChange={(e) => { setBlackHoles(parseInt(e.currentTarget.value)) }} />
-                                    <Form.Label>Blue Giant</Form.Label>
-                                    <Form.Control size={'sm'} type="number" defaultValue={12} onChange={(e) => { setBlueGiants(parseInt(e.currentTarget.value)) }} />
-                                    <Form.Label>Blue</Form.Label>
-                                    <Form.Control size={'sm'} type="number" defaultValue={50} onChange={(e) => { setBlues(parseInt(e.currentTarget.value)) }} />
-                                    <Form.Label>Yellow</Form.Label>
-                                    <Form.Control size={'sm'} type="number" defaultValue={150} onChange={(e) => { setYellows(parseInt(e.currentTarget.value)) }} />
-                                    <Form.Label>Red Dwarf</Form.Label>
-                                    <Form.Control size={'sm'} type="number" defaultValue={350} onChange={(e) => { setRedDwarfs(parseInt(e.currentTarget.value)) }} />
-
-                                </>
-                                :
-                                <></>
-                        }
-                        <br />
-                        <OverlayTrigger
-                            key={'right'}
-                            placement={'right'}
-                            overlay={
-                                <Tooltip id={`tooltip-right`}>
-                                    Click to enter Interactive Mode. This allows you to modify the simulation in real time by adding new stars or orbit lines.
-                                </Tooltip>
-                            }
-                        >
-                            <Form.Label>Interactive Mode</Form.Label>
-                        </OverlayTrigger>
-                        <Form.Check value={"false"} type="switch" checked={interactiveMode} onChange={() => { setInteractiveMode(!interactiveMode) }} disabled={isPreRendering} />
-                        {interactiveMode ?
-                            <div className="interactive-mode">
-                                <OverlayTrigger
-                                    key={'right'}
-                                    placement={'right'}
-                                    overlay={
-                                        <Tooltip id={`tooltip-right`}>
-                                            Modifies the mass of the star that can be added in. You can also adjust the initial velocity of the star you add by clicking, dragging your mouse and realeasing.
-                                        </Tooltip>
-                                    }
-                                >
-                                    <Form.Label>Star Mass</Form.Label>
-                                </OverlayTrigger>
-                                <Form.Control defaultValue={interactiveStarMass} type="number" onChange={(e) => setInteractiveStarMass(parseInt(e.target.value))} />
-                                <br />
-                                <OverlayTrigger
-                                    key={'right'}
-                                    placement={'right'}
-                                    overlay={
-                                        <Tooltip id={`tooltip-right`}>
-                                            Add Orbit lines that trail behind the stars as they move.
-                                        </Tooltip>
-                                    }
-                                >
-                                    <Form.Label>Show Orbit Lines</Form.Label>
-                                </OverlayTrigger>
-                                <Form.Check value={"true"} type="switch" checked={showOrbitTrails} onChange={() => { setShowOrbitTrails(!showOrbitTrails) }} />
-                                <br />
-                                <OverlayTrigger
-                                    key={'right'}
-                                    placement={'right'}
-                                    overlay={
-                                        <Tooltip id={`tooltip-right`}>
-                                            Modify the strength of the Gravitational Constant
-                                        </Tooltip>
-                                    }
-                                >
-                                    <Form.Label>Gravitational Constant</Form.Label>
-                                </OverlayTrigger>
-                                <Form.Control size={'sm'} type="number" value={gravConst} onChange={(e) => { setGravConst(e.currentTarget.value) }} />
-                            </div> :
-                            null}
-                        <br />
+                                />
+                            </Tab>
+                            <Tab eventKey="PreRenderTab" title="Pre-Rendered" tabClassName="condition-tab">
+                                <PreRenderTab
+                                    shouldDraw={shouldDraw}
+                                    handleReset={handleReset}
+                                    setShouldDraw={setShouldDraw}
+                                    isPreRendering={isPreRendering}
+                                    setPreRenderTime={setPreRenderTime}
+                                    setIsPlayingPreRendered={setIsPlayingPreRendered}
+                                    setIsPreRendering={setIsPreRendering}
+                                    preRenderSim={preRenderSim}
+                                    handleScenarioSelect={handleScenarioSelect}
+                                    setStars={setStars}
+                                    stars={stars}
+                                    scenario={scenario}
+                                />
+                            </Tab>
+                        </Tabs>
                     </div>
                     {shouldDraw ? <Sketch setup={setup} draw={draw} mousePressed={mousePress} mouseReleased={mouseRelease} className={`galaxy-canvas ${scenario}`} /> : null}</Col>
                 <Col xxl={0} xl={2} />

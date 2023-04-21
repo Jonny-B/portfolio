@@ -23,4 +23,11 @@ export default class Star {
         this.pos.add(this.vel);
         this.acc.mult(0);
     };
+
+    clone(): Star {
+        const pos = new Vector(this.pos.x, this.pos.y);
+        const vel = new Vector(this.vel.x, this.vel.y);
+        return new Star(pos.x, pos.y, this.mass, [vel.x, vel.y]);
+    }
+
 };
