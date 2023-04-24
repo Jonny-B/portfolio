@@ -49,9 +49,13 @@ body::after {
 
 button {
     margin: 8px;
-    background: rgba(178, 190, 181, .05) !important;
+    background: rgba(178, 190, 181, .20) !important;
     border: rgba(178, 190, 181, .3) solid 2px !important;
     color: rgba(178, 190, 181, .8) !important;
+}
+
+button:hover {
+    background: rgba(178, 190, 181, .05) !important;
 }
 
 input {
